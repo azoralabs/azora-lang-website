@@ -132,7 +132,7 @@ const icons = {
 }
 
 const features = [
-  { icon: 'syntax', title: 'Clean, Expressive Syntax', desc: 'Familiar C-style syntax with modern ergonomics. Type inference, pattern matching, and single-expression functions reduce boilerplate.' },
+  { icon: 'syntax', title: 'Clean, Expressive Syntax', desc: 'Kotlin + Rust like syntax with modern ergonomics. Type inference, pattern matching, and single-expression functions reduce boilerplate.' },
   { icon: 'packs', title: 'Packs, Enums & Slots', desc: 'Data packs for structures, enums for constants, and slots for tagged unions with exhaustive pattern matching.' },
   { icon: 'generics', title: 'Generics & Specs', desc: 'Full generic types and functions with spec constraints. Monomorphized at compile time for zero-cost abstractions.' },
   { icon: 'tuples', title: 'Tuples', desc: 'Built-in heterogeneous tuples with (a, b, c) syntax. Access elements by position with .0, .1, .2 notation.' },
@@ -140,10 +140,10 @@ const features = [
   { icon: 'flows', title: 'Flows & Generators', desc: 'Lazy generator sequences with yield. Compose data pipelines that only compute values on demand.' },
   { icon: 'trees', title: 'Inheritance', desc: 'Single inheritance with node types. Override with repl, prevent extension with leaf, call parent with base.' },
   { icon: 'testing', title: 'Built-in Testing', desc: 'Test blocks are a language construct. Write tests next to your code with assert and trace, no framework needed.' },
-  { icon: 'collections', title: 'Collection Literals', desc: 'Native syntax for arrays, sets (![...]), and maps (["key": val]). Static arrays with fill<T>(size).' },
+  { icon: 'collections', title: 'Collection Literals', desc: 'Native syntax for arrays and maps (["key": val]). Static arrays with fill<T>(size).' },
   { icon: 'errors', title: 'Error Handling', desc: 'Typed error returns with fail, throw, try, and catch. Guard statements for nullable unwrapping. Rescue for recovery.' },
-  { icon: 'memory', title: 'Memory Management', desc: 'Manual memory control with alloc, drop, ref, and mut. Regions for arena allocation and unsafe blocks when you need them.' },
-  { icon: 'targets', title: 'Multi-Target Compilation', desc: 'Compile to Kotlin/JVM, C#/.NET, TypeScript, Python, Swift, Dart, Rust, LLVM IR, or WebAssembly from a single codebase.' },
+  { icon: 'memory', title: 'Memory Management', desc: 'Manual memory control with alloc, drop, ref, mut, shared and weak. Regions for arena allocation and unsafe blocks when you need them.' },
+  { icon: 'targets', title: 'Multi-Target Compilation', desc: 'Compile to Kotlin/JVM/KMP, C#/.NET, TypeScript, Python, Swift, Dart, Rust, LLVM IR, or WebAssembly from a single codebase.' },
   { icon: 'meta', title: 'Metaprogramming', desc: 'Decorators, compile-time introspection with hasDeco and getDeco, and deepinline blocks for bulk code generation.' },
   { icon: 'ctce', title: 'Compile-Time Execution', desc: 'Inline if/for blocks evaluate at compile time. Conditionally emit code, unroll loops, and resolve constants before runtime.' },
   { icon: 'ffi', title: 'Bridge (Foreign Functions)', desc: 'Call native C, Objective-C, JVM, TypeScript, C#, Python, and Swift functions via the bridge keyword.' },

@@ -19,39 +19,39 @@ const targets = [
   },
   {
     name: 'Swift',
-    desc: 'Compile to Swift 6.2 for Apple platforms. Native protocols, classes, and Foundation integration.',
+    desc: 'Compile to Swift 6 for Apple platforms. Native protocols, classes, and Foundation integration.',
     color: 'text-pastel-pink',
-    state: 'not started'
+    state: 'experimental'
   },
   {
     name: 'Dart',
     desc: 'Target Dart 3 with sealed classes, pattern matching, null safety, and Flutter widget support.',
     color: 'text-pastel-darkblue',
-    state: 'not started'
+    state: 'experimental'
   },
   {
     name: 'C# / .NET',
     desc: 'Target C# for .NET applications. Leverage the .NET runtime and libraries.',
     color: 'text-pastel-blue',
-    state: 'not started'
+    state: 'experimental'
   },
   {
     name: 'Rust',
     desc: 'Compile to Rust with ownership semantics, enum tagged unions, traits, and zero-cost abstractions.',
     color: 'text-pastel-red',
-    state: 'not started'
+    state: 'experimental'
   },
   {
     name: 'Python',
     desc: 'Generate Python 3 code. Integrate with the Python ecosystem for data science, scripting, and automation.',
     color: 'text-pastel-orange',
-    state: 'not started'
+    state: 'experimental'
   },
   {
     name: 'WebAssembly',
     desc: 'WASI-compatible WebAssembly for high-performance browser and edge runtime execution.',
     color: 'text-pastel-white',
-    state: 'not started'
+    state: 'experimental'
   },
 ]
 
@@ -66,7 +66,7 @@ export default function Targets() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {targets.map(t => (
             <div key={t.name} className={`relative rounded-xl border border-az-75 bg-az-85 p-6 text-center transition-colors overflow-hidden ${
-              t.state === 'not started' ? 'opacity-50 pointer-events-none' : 'hover:border-az-60'
+              t.state === 'experimental' ? 'hover:border-az-60' : 'opacity-50 pointer-events-none'
             }`}>
               <span className={`absolute top-5 -right-8 rotate-[30deg] text-xs font-bold uppercase tracking-wide px-10 py-1 ${
                 t.state === 'experimental'
