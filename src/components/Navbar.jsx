@@ -18,7 +18,7 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-2">
           <img src="/assets/azora_logo.svg" alt="Azora" className="h-7 w-7" />
           <span className="font-semibold text-az-10">Azora Programming Language</span>
-          <span className="text-[10px] text-az-60 ml-1.5 border border-az-65 rounded px-1.5 py-0.5">v0.0.2</span>
+          <span className="text-[10px] text-az-60 ml-1.5 border border-az-65 rounded px-1.5 py-0.5">v0.0.3</span>
         </Link>
 
         {/* Desktop links */}
