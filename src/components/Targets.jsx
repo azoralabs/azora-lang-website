@@ -1,49 +1,19 @@
 const targets = [
   {
+    name: 'Interpreted',
+    desc: 'Run Azora directly with the built-in interpreter. Instant feedback, no build step, ideal for scripting and development.',
+    color: 'text-pastel-teal',
+    state: 'experimental'
+  },
+  {
     name: 'LLVM IR',
     desc: 'Compile to LLVM intermediate representation for native performance on any platform.',
     color: 'text-pastel-green',
     state: 'experimental'
   },
   {
-    name: 'Kotlin / JVM',
-    desc: 'Compile to Kotlin and run on the JVM or KMP. Access the entire Java and Kotlin ecosystem.',
-    color: 'text-pastel-purple',
-    state: 'experimental'
-  },
-  {
-    name: 'TypeScript',
-    desc: 'Generate TypeScript for web browsers and Node.js. Build full-stack with one language.',
-    color: 'text-pastel-teal',
-    state: 'experimental'
-  },
-  {
-    name: 'Swift',
-    desc: 'Compile to Swift 6 for Apple platforms. Native protocols, classes, and Foundation integration.',
-    color: 'text-pastel-pink',
-    state: 'experimental'
-  },
-  {
-    name: 'Dart',
-    desc: 'Target Dart 3 with sealed classes, pattern matching, null safety, and Flutter widget support.',
-    color: 'text-pastel-darkblue',
-    state: 'experimental'
-  },
-  {
-    name: 'C# / .NET',
-    desc: 'Target C# for .NET applications. Leverage the .NET runtime and libraries.',
-    color: 'text-pastel-blue',
-    state: 'experimental'
-  },
-  {
-    name: 'Rust',
-    desc: 'Compile to Rust with ownership semantics, enum tagged unions, traits, and zero-cost abstractions.',
-    color: 'text-pastel-red',
-    state: 'experimental'
-  },
-  {
-    name: 'Python',
-    desc: 'Generate Python 3 code. Integrate with the Python ecosystem for data science, scripting, and automation.',
+    name: 'JavaScript',
+    desc: 'Generate JavaScript for web browsers and Node.js. Build full-stack with one language.',
     color: 'text-pastel-orange',
     state: 'experimental'
   },
@@ -63,7 +33,7 @@ export default function Targets() {
         <p className="text-az-45 text-center mb-12 max-w-2xl mx-auto">
           One language, multiple platforms. Azora compiles to the backend that fits your project.
         </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {targets.map(t => (
             <div key={t.name} className={`relative rounded-xl border border-az-75 bg-az-85 p-6 text-center transition-colors overflow-hidden ${
               t.state === 'experimental' ? 'hover:border-az-60' : 'opacity-50 pointer-events-none'

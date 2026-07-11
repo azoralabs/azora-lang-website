@@ -118,7 +118,7 @@ export default function Hero({ engine }) {
             Expressive.
           </h1>
           <p className="text-lg text-az-40 mb-8 max-w-xl">
-            Azora is a modern general purpose programming language with real-time IR generation. No build step. Just code and run, targeting native, web, and mobile from a single language.
+            Azora is a modern general purpose programming language with real-time IR generation. No build step. Just code and run, interpreted or compiled to LLVM, JavaScript, and WebAssembly from a single language.
             <span className="block mt-4">Azora is experimental and in early stages of development. Not recommended for production use.</span>
           </p>
           <div className="flex flex-wrap gap-4">
