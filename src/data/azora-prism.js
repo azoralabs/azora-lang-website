@@ -35,7 +35,7 @@ export default function azora(Prism) {
               pattern: /^\$\{?|\}$/,
               alias: 'punctuation',
             },
-            keyword: /\b(?:self|this|it)\b/,
+            keyword: /\b(?:var|let|fin|func|return|package|module|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|mixin|panic|for|while|loop|in|by|reverse|break|continue|pack|enum|slot|when|throw|try|catch|impl|spec|defer|typealias|type|as|guard|is|null|oper|infx|fail|alloc|drop|deref|unsafe|isolated|flow|yield|task|async|await|launch|bridge|solo|inject|wrap|rescue|node|leaf|repl|virt|base|mem|rem|ret|effect|view|hook|prop|ctor|dtor|flip|flop|ref|out|mut|shared|weak|expose|confine|protect|protected|threadlocal|deco|where|with|each|self|it)\b/,
             punctuation: /[.]/,
           },
         },
@@ -55,7 +55,7 @@ export default function azora(Prism) {
       pattern: /\bnull\b/,
       alias: 'boolean',
     },
-    keyword: /\b(?:var|fin|func|hook|test|if|else|for|loop|while|in|as|is|when|return|break|continue|expose|confine|protect|inline|deepinline|noinline|enum|slot|pack|impl|infx|deco|scope|package|use|flip|flop|by|typealias|spec|where|each|type|let|task|suspend|flow|yield|launch|async|await|assert|trace|with|self|this|base|prop|it|fail|try|catch|defer|alloc|drop|node|repl|leaf|ctor|dtor|threadlocal|oper|ref|mut|dyn|out|solo|inject|wrap|bind|lazy|rem|view|effect|guard|throw|rescue|bridge|unsafe|region|isolated|reverse)\b/,
+    keyword: /\b(?:var|let|fin|func|return|package|module|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|mixin|panic|for|while|loop|in|by|reverse|break|continue|pack|enum|slot|when|throw|try|catch|impl|spec|defer|typealias|type|as|guard|is|null|oper|infx|fail|alloc|drop|deref|unsafe|isolated|flow|yield|task|async|await|launch|bridge|solo|inject|wrap|rescue|node|leaf|repl|virt|base|mem|rem|ret|effect|view|hook|prop|ctor|dtor|flip|flop|ref|out|mut|shared|weak|expose|confine|protect|protected|threadlocal|deco|where|with|each|self|it)\b/,
     'type-name': {
       pattern: /\b[A-Z][a-zA-Z0-9_]*\b/,
       alias: 'class-name',

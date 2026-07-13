@@ -7,7 +7,9 @@ export const codeExamples = [
   },
   {
     title: 'Variables',
-    code: `func main() {
+    code: `use zone std
+
+func main() {
     // Mutable binding
     var count = 0
 
@@ -15,9 +17,9 @@ export const codeExamples = [
     fin name = "Azora"
     fin greeting = "Hello, \${name}!"
 
-    // Type inference works on arrays too
-    fin items = [1, 2, 3, 4, 5]
-    count = items.length
+    // Stdlib collections are Kotlin-inspired
+    fin items = listOf(1, 2, 3, 4, 5)
+    count = items.size
 
     println(greeting)
     println("\${count}")
@@ -170,19 +172,13 @@ func main() {
   },
   {
     title: 'Async / Await',
-    code: `func main() {
-    fin a = async {
-        suspend 100
-        "Hello, Alice!"
-    }
-    fin b = async {
-        suspend 100
-        "Hello, Bob!"
-    }
+    code: `task main() {
+    fin a = async { "Hello, Alice!" }
+    fin b = async { "Hello, Bob!" }
 
     // Await both results
-    println(await a())
-    println(await b())
+    println(await a)
+    println(await b)
 }`,
   },
   {
@@ -264,7 +260,7 @@ out { r ->
     assert r >= lo { "result must be >= lo" }
     assert r <= hi { "result must be <= hi" }
 }
-scope {
+zone {
     if x < lo { return lo }
     if x > hi { return hi }
     return x
@@ -283,23 +279,21 @@ test "clamp above maximum" {
 }`,
   },
   {
-    title: 'Collection Literals',
-    code: `func main() {
-    // Array
-    fin numbers = [1, 2, 3, 4, 5]
-    println("Array length: \${numbers.length}")
+    title: 'Collections',
+    code: `use zone std
 
-    // Set literal (deduplicates)
-    fin unique = ![1, 2, 2, 3, 3, 3]
-    println("Set length: \${unique.length}")
+func main() {
+    fin numbers = listOf(1, 2, 3, 4, 5)
+    println("List size: \${numbers.size}")
 
-    // Map literal
-    fin scores = ["alice": 95, "bob": 87, "carol": 92]
-    println("Map length: \${scores.length}")
+    // setOf deduplicates
+    fin unique = setOf(1, 2, 2, 3, 3, 3)
+    println("Set size: \${unique.size}")
 
-    // Empty map
-    fin empty = [:]
-    println("Empty map: \${empty.length}")
+    var scores = MutableMap<String, Int>()
+    scores.put("alice", 95)
+    scores.put("bob", 87)
+    println("Bob: \${scores["bob"]}")
 }`,
   },
   {
@@ -346,14 +340,14 @@ func main() {
     var c = alloc Node(value: 3, next: null)
 
     // Link nodes: a -> b -> c
-    (*a).next = b
-    (*b).next = c
+    (deref a).next = b
+    (deref b).next = c
 
     // Traverse the linked list
     var current: Node* = a
     while current != null {
-        println((*current).value)
-        current = (*current).next
+        println((deref current).value)
+        current = (deref current).next
     }
 
     // Cleanup
