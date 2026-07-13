@@ -86,55 +86,59 @@ export default function CodeShowcase({ engine }) {
   }
 
   return (
-    <section id="examples" className="py-20 px-4">
+    <section id="examples" className="showcase section-band">
       <style>{tokenCSS}</style>
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2 text-center">Code Examples</h2>
-        <p className="text-az-45 text-center mb-10 max-w-xl mx-auto">
-          See Azora in action. Select an example to explore the language.
-        </p>
+      <div className="page-shell page-shell--narrow">
+        <div className="section-heading section-heading--split" data-reveal>
+          <div>
+            <span className="section-kicker">Language tour</span>
+            <h2>Read Azora by example.</h2>
+          </div>
+          <p>Move through real language features, inspect the syntax, and execute supported examples directly.</p>
+        </div>
 
-        {/* Controls */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6">
-          <select
-            value={selected}
-            onChange={e => handleSelect(Number(e.target.value))}
-            className="flex-1 bg-az-85 border border-az-65 rounded-lg px-4 py-2.5 text-sm text-az-10 font-medium focus:outline-none focus:border-az-primary appearance-none cursor-pointer"
-          >
-            {codeExamples.map((ex, i) => (
-              <option key={i} value={i}>{ex.title}</option>
-            ))}
-          </select>
+        <div className="showcase__controls" data-reveal>
+          <div className="glass-select-wrap">
+            <select
+              value={selected}
+              onChange={e => handleSelect(Number(e.target.value))}
+              className="glass-select"
+              aria-label="Choose a code example"
+            >
+              {codeExamples.map((ex, i) => (
+                <option key={i} value={i}>{ex.title}</option>
+              ))}
+            </select>
+          </div>
           <a
             href="https://code.azoralang.org"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-az-primary/15 text-az-primary text-sm font-medium hover:bg-az-primary/25 transition-colors"
+            className="button button--glass button--compact"
           >
             Open in Playground
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M7 3h6v6" />
-              <path d="M13 3L6 10" />
-            </svg>
+            <span aria-hidden="true">↗</span>
           </a>
         </div>
 
-        {/* Code display */}
-        <div className="rounded-xl border border-az-75 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-2.5 bg-az-85 border-b border-az-75">
-            <span className="text-xs text-az-60 font-mono">{example.title.replace(/[^a-zA-Z0-9]+/g, '')}.az</span>
-            <div className="flex items-center gap-2">
+        <div className="showcase__frame glass-panel" data-reveal="up">
+          <div className="runtime__toolbar">
+            <div className="runtime__file">
+              <span className="runtime__status" aria-hidden="true" />
+              <span>{example.title.replace(/[^a-zA-Z0-9]+/g, '')}.az</span>
+            </div>
+            <div className="runtime__actions">
               {engine.loading && (
-                <span className="inline-flex items-center gap-1.5 text-xs text-az-50"><Spinner /> Loading engine...</span>
+                <span className="runtime__message"><Spinner /> Loading runtime</span>
               )}
               {engine.error && (
-                <span className="text-xs text-az-red">Engine error</span>
+                <span className="runtime__message runtime__message--error">Engine error</span>
               )}
               {hasMain && (
                 <button
                   onClick={handleRun}
                   disabled={!engine.ready || running}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium bg-az-green/15 text-az-green hover:bg-az-green/25 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  className="icon-command icon-command--run"
                 >
                   {runningMode === 'run' ? <><Spinner /> Running</> : <><PlayIcon /> Run</>}
                 </button>
@@ -143,7 +147,7 @@ export default function CodeShowcase({ engine }) {
                 <button
                   onClick={handleRunTests}
                   disabled={!engine.ready || running}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium bg-az-secondary/15 text-az-secondary hover:bg-az-secondary/25 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  className="icon-command"
                 >
                   {runningMode === 'test' ? <><Spinner /> Running Tests</> : <><CheckIcon /> Run Tests</>}
                 </button>
@@ -151,9 +155,9 @@ export default function CodeShowcase({ engine }) {
             </div>
           </div>
           <pre
-            className="az-showcase overflow-auto"
+            className="az-showcase showcase__code"
             style={{
-              background: '#141414',
+              background: 'transparent',
               padding: '1.25rem',
               margin: 0,
               fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace",
@@ -165,12 +169,12 @@ export default function CodeShowcase({ engine }) {
             <code dangerouslySetInnerHTML={{ __html: highlighted }} />
           </pre>
           {output && (
-            <div className="border-t border-az-75 px-4 py-3 bg-az-95 font-mono text-xs">
-              <div className="text-az-60 mb-1">Output</div>
+            <div className="runtime__output">
+              <div>Output</div>
               {output.success ? (
-                <pre className="text-az-green whitespace-pre-wrap">{output.output || '(no output)'}</pre>
+                <pre>{output.output || '(no output)'}</pre>
               ) : (
-                <pre className="text-az-red whitespace-pre-wrap">{output.errors}</pre>
+                <pre className="runtime__output-error">{output.errors}</pre>
               )}
             </div>
           )}

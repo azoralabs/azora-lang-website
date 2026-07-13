@@ -5,7 +5,11 @@ import azoraDef from '../data/azora-prism'
 
 azoraDef(Prism)
 
-const defaultCode = `package playground
+const defaultCode = `module playground
+
+use std.container.tuple
+
+use zone std
 
 pack App {
     var name: String
@@ -19,7 +23,7 @@ impl App {
 
 func main() {
     fin app = App("Azora")
-    println(app.greet())
+    println(tupleOf(app.greet(), ":)"))
 }`
 
 const PlayIcon = () => (
@@ -70,7 +74,7 @@ const editorStyle = {
   fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace",
   fontSize: '0.85rem',
   lineHeight: '1.6',
-  background: '#141414',
+  background: 'transparent',
   color: '#D9D9D9',
   caretColor: '#D9D9D9',
   minHeight: '12rem',
@@ -107,93 +111,100 @@ export default function Hero({ engine }) {
   }
 
   return (
-    <section className="pt-28 pb-20 px-4">
+    <>
       <style>{tokenCSS}</style>
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
-        <div className="pt-16">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-
-            <span className="text-az-primary">Fast.</span>{' '}
-            <span className="text-az-secondary">Safe.</span>{' '}
-            Expressive.
-          </h1>
-          <p className="text-lg text-az-40 mb-8 max-w-xl">
-            Azora is a modern general purpose programming language with real-time IR generation. No build step. Just code and run, interpreted or compiled to LLVM, JavaScript, and WebAssembly from a single language.
-            <span className="block mt-4">Azora is experimental and in early stages of development. Not recommended for production use.</span>
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero__media" aria-hidden="true" />
+        <div className="hero__veil" aria-hidden="true" />
+        <div className="hero__content page-shell" data-reveal>
+          <h1 id="hero-title">Azora</h1>
+          <p className="hero__statement">
+            <span>Fast.</span> <span>Safe.</span> Expressive.
           </p>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="https://code.azoralang.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-az-primary text-white font-medium hover:brightness-110 transition"
-            >
-              Try in Playground
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 3l6 5-6 5" />
-              </svg>
+          <p className="hero__copy">
+            A modern systems language with real-time IR generation and one source of truth for LLVM, JavaScript, WebAssembly, and direct interpretation.
+          </p>
+          <div className="hero__actions">
+            <a className="button button--primary" href="https://code.azoralang.org" target="_blank" rel="noopener noreferrer">
+              Try Azora
+              <span aria-hidden="true">↗</span>
             </a>
-            <a
-              href="https://book.azoralang.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-az-65 text-az-20 font-medium hover:border-az-40 hover:text-az-10 transition"
-            >
+            <a className="button button--glass" href="https://book.azoralang.org" target="_blank" rel="noopener noreferrer">
               Read the Book
             </a>
           </div>
+          <div className="hero__targets" aria-label="Supported compilation targets">
+            <span>Interpreter</span>
+            <span>LLVM</span>
+            <span>JavaScript</span>
+            <span>WebAssembly</span>
+          </div>
         </div>
+        <a className="hero__scroll" href="#runtime">
+          Live runtime <span aria-hidden="true">↓</span>
+        </a>
+      </section>
 
-        <div className="rounded-xl border border-az-75 overflow-hidden bg-az-95 flex flex-col">
-          <div className="flex items-center justify-between px-4 py-2.5 bg-az-85 border-b border-az-75 shrink-0">
-            <span className="text-xs text-az-60 font-mono">Main.az</span>
-            <div className="flex items-center gap-2">
-              {engine.loading && (
-                <span className="inline-flex items-center gap-1.5 text-xs text-az-50"><Spinner /> Loading...</span>
-              )}
-              {hasMain && (
-                <button
-                  onClick={handleRun}
-                  disabled={!engine.ready || running}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium bg-az-green/15 text-az-green hover:bg-az-green/25 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  {runningMode === 'run' ? <><Spinner /> Running</> : <><PlayIcon /> Run</>}
-                </button>
-              )}
-              {hasTests && (
-                <button
-                  onClick={handleRunTests}
-                  disabled={!engine.ready || running}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium bg-az-secondary/15 text-az-secondary hover:bg-az-secondary/25 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  {runningMode === 'test' ? <><Spinner /> Running Tests</> : <><CheckIcon /> Run Tests</>}
-                </button>
-              )}
+      <section id="runtime" className="runtime section-band">
+        <div className="page-shell">
+          <div className="section-heading section-heading--split" data-reveal>
+            <div>
+              <span className="section-kicker">In the browser</span>
+              <h2>Code that is already alive.</h2>
             </div>
+            <p>Edit the source, run it through Azora's interpreter, and see the result without leaving the page.</p>
           </div>
-          <div className="az-editor overflow-auto" style={{ height: '24rem' }}>
-            <Editor
-              value={code}
-              onValueChange={setCode}
-              highlight={highlightCode}
-              padding={20}
-              style={{ ...editorStyle, minHeight: '100%' }}
-              tabSize={4}
-              insertSpaces
-            />
-          </div>
-          {output && (
-            <div className="border-t border-az-75 px-4 py-3 bg-az-95 font-mono text-xs overflow-auto" style={{ maxHeight: '8rem' }}>
-              <div className="text-az-60 mb-1">Output</div>
-              {output.success ? (
-                <pre className="text-az-green whitespace-pre-wrap">{output.output || '(no output)'}</pre>
-              ) : (
-                <pre className="text-az-red whitespace-pre-wrap">{output.errors}</pre>
-              )}
+
+          <div className="runtime__frame glass-panel" data-reveal="up">
+            <div className="runtime__toolbar">
+              <div className="runtime__file">
+                <span className="runtime__status" aria-hidden="true" />
+                <span>Main.az</span>
+              </div>
+              <div className="runtime__actions">
+                {engine.loading && (
+                  <span className="runtime__message"><Spinner /> Loading runtime</span>
+                )}
+                {engine.error && <span className="runtime__message runtime__message--error">Engine error</span>}
+                {hasMain && (
+                  <button className="icon-command icon-command--run" onClick={handleRun} disabled={!engine.ready || running}>
+                    {runningMode === 'run' ? <><Spinner /> Running</> : <><PlayIcon /> Run</>}
+                  </button>
+                )}
+                {hasTests && (
+                  <button className="icon-command" onClick={handleRunTests} disabled={!engine.ready || running}>
+                    {runningMode === 'test' ? <><Spinner /> Testing</> : <><CheckIcon /> Test</>}
+                  </button>
+                )}
+              </div>
             </div>
-          )}
+            <div className="az-editor runtime__editor">
+              <Editor
+                value={code}
+                onValueChange={setCode}
+                highlight={highlightCode}
+                padding={24}
+                style={{ ...editorStyle, minHeight: '100%' }}
+                tabSize={4}
+                insertSpaces
+              />
+            </div>
+            {output && (
+              <div className="runtime__output">
+                <div>Output</div>
+                {output.success ? (
+                  <pre>{output.output || '(no output)'}</pre>
+                ) : (
+                  <pre className="runtime__output-error">{output.errors}</pre>
+                )}
+              </div>
+            )}
+          </div>
+          <p className="runtime__note" data-reveal>
+            Experimental release. Azora is evolving quickly and is not yet recommended for production systems.
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }

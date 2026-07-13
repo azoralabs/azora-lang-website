@@ -152,21 +152,55 @@ const features = [
   { icon: 'reactivity', title: 'Reactivity', desc: 'Reactive state with rem for persistence, view for UI components, and effect for side effects that track dependencies.' },
 ]
 
+const featureGroups = [
+  {
+    kicker: 'Language design',
+    title: 'Expressive at every layer',
+    icons: ['syntax', 'packs', 'generics', 'tuples', 'trees', 'collections', 'errors'],
+  },
+  {
+    kicker: 'Execution model',
+    title: 'Structured by default',
+    icons: ['async', 'flows', 'testing', 'contracts', 'di', 'reactivity'],
+  },
+  {
+    kicker: 'Systems core',
+    title: 'Control without ceremony',
+    icons: ['memory', 'targets', 'meta', 'ctce', 'ffi'],
+  },
+]
+
 export default function Features() {
   return (
-    <section id="features" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2 text-center">Features</h2>
-        <p className="text-az-45 text-center mb-12 max-w-2xl mx-auto">
-          Everything you need to build modern software, all in one language.
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {features.map(f => (
-            <div key={f.title} className="rounded-xl border border-az-75 bg-az-85 p-5 hover:border-az-60 transition-colors">
-              <span className="inline-block text-az-primary mb-3">{icons[f.icon]}</span>
-              <h3 className="font-semibold text-az-10 mb-2">{f.title}</h3>
-              <p className="text-sm text-az-45 leading-relaxed">{f.desc}</p>
-            </div>
+    <section id="features" className="features section-band section-band--deep">
+      <div className="page-shell">
+        <div className="section-heading" data-reveal>
+          <span className="section-kicker">The language</span>
+          <h2>A wide surface. One coherent model.</h2>
+          <p>Modern ergonomics on top, explicit systems control underneath, and no split between the two.</p>
+        </div>
+        <div className="features__grid">
+          {featureGroups.map((group, index) => (
+            <article
+              key={group.kicker}
+              className="features__group glass-panel"
+              data-reveal="up"
+              style={{ '--reveal-order': index }}
+            >
+              <span className="features__kicker">{group.kicker}</span>
+              <h3>{group.title}</h3>
+              <div className="features__list">
+                {features.filter(feature => group.icons.includes(feature.icon)).map(feature => (
+                  <div className="feature-row" key={feature.title}>
+                    <span className="feature-row__icon" aria-hidden="true">{icons[feature.icon]}</span>
+                    <div>
+                      <h4>{feature.title}</h4>
+                      <p>{feature.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
           ))}
         </div>
       </div>

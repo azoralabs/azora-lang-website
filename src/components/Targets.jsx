@@ -1,23 +1,27 @@
 const targets = [
   {
+    index: '01',
     name: 'Interpreted',
     desc: 'Run Azora directly with the built-in interpreter. Instant feedback, no build step, ideal for scripting and development.',
     color: 'text-pastel-teal',
     state: 'experimental'
   },
   {
+    index: '02',
     name: 'LLVM IR',
     desc: 'Compile to LLVM intermediate representation for native performance on any platform.',
     color: 'text-pastel-green',
     state: 'experimental'
   },
   {
+    index: '03',
     name: 'JavaScript',
     desc: 'Generate JavaScript for web browsers and Node.js. Build full-stack with one language.',
     color: 'text-pastel-orange',
     state: 'experimental'
   },
   {
+    index: '04',
     name: 'WebAssembly',
     desc: 'WASI-compatible WebAssembly for high-performance browser and edge runtime execution.',
     color: 'text-pastel-white',
@@ -27,27 +31,25 @@ const targets = [
 
 export default function Targets() {
   return (
-    <section id="targets" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2 text-center">Compilation Targets</h2>
-        <p className="text-az-45 text-center mb-12 max-w-2xl mx-auto">
-          One language, multiple platforms. Azora compiles to the backend that fits your project.
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {targets.map(t => (
-            <div key={t.name} className={`relative rounded-xl border border-az-75 bg-az-85 p-6 text-center transition-colors overflow-hidden ${
-              t.state === 'experimental' ? 'hover:border-az-60' : 'opacity-50 pointer-events-none'
-            }`}>
-              <span className={`absolute top-5 -right-8 rotate-[30deg] text-xs font-bold uppercase tracking-wide px-10 py-1 ${
-                t.state === 'experimental'
-                  ? 'bg-pastel-red text-az-95'
-                  : 'bg-az-60 text-az-95'
-              }`}>
-                {t.state}
-              </span>
-              <h3 className={`font-mono font-bold text-lg mb-3 ${t.color}`}>{t.name}</h3>
-              <p className="text-sm text-az-45 leading-relaxed">{t.desc}</p>
-            </div>
+    <section id="targets" className="targets section-band section-band--contrast">
+      <div className="page-shell">
+        <div className="section-heading section-heading--split" data-reveal>
+          <div>
+            <span className="section-kicker">Compilation targets</span>
+            <h2>One language. Four ways to run.</h2>
+          </div>
+          <p>Stay in the interpreter while you explore, then take the same source to native, browser, server, or edge runtimes.</p>
+        </div>
+        <div className="targets__rail glass-panel" data-reveal="up">
+          {targets.map((target, index) => (
+            <article className="target" key={target.name} style={{ '--reveal-order': index }}>
+              <div className="target__meta">
+                <span className="target__index">{target.index}</span>
+                <span className="target__state">{target.state}</span>
+              </div>
+              <h3 className={target.color}>{target.name}</h3>
+              <p>{target.desc}</p>
+            </article>
           ))}
         </div>
       </div>

@@ -4,41 +4,41 @@ const links = [
     desc: 'Write, run, and share Azora code directly in your browser. No setup required.',
     href: 'https://code.azoralang.org',
     cta: 'Open Playground',
-    accent: 'bg-az-primary/10 border-az-primary/30 hover:border-az-primary/60',
-    ctaColor: 'text-az-primary',
+    label: 'Build',
   },
   {
     title: 'The Azora Book',
     desc: 'A comprehensive 41-chapter guide covering everything from basics to advanced concurrency, inheritance, FFI, and more.',
     href: 'https://book.azoralang.org',
     cta: 'Start Reading',
-    accent: 'bg-az-secondary/10 border-az-secondary/30 hover:border-az-secondary/60',
-    ctaColor: 'text-az-secondary',
+    label: 'Learn',
   },
 ]
 
 export default function Ecosystem() {
   return (
-    <section id="ecosystem" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2 text-center">Ecosystem</h2>
-        <p className="text-az-45 text-center mb-12 max-w-lg mx-auto">
-          Get started with Azora today.
-        </p>
-        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          {links.map(l => (
+    <section id="ecosystem" className="ecosystem section-band section-band--deep">
+      <div className="page-shell">
+        <div className="section-heading" data-reveal>
+          <span className="section-kicker">Ecosystem</span>
+          <h2>Go from curious to fluent.</h2>
+          <p>Run the language in your browser, then go deeper with the complete Azora guide.</p>
+        </div>
+        <div className="ecosystem__grid">
+          {links.map((link, index) => (
             <a
-              key={l.title}
-              href={l.href}
+              key={link.title}
+              href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`block rounded-xl border p-8 transition-colors ${l.accent}`}
+              className="ecosystem-card glass-panel"
+              data-reveal="up"
+              style={{ '--reveal-order': index }}
             >
-              <h3 className="text-xl font-semibold text-az-10 mb-3">{l.title}</h3>
-              <p className="text-sm text-az-45 leading-relaxed mb-5">{l.desc}</p>
-              <span className={`text-sm font-medium ${l.ctaColor}`}>
-                {l.cta} &rarr;
-              </span>
+              <span className="ecosystem-card__label">{link.label}</span>
+              <h3>{link.title}</h3>
+              <p>{link.desc}</p>
+              <span className="ecosystem-card__cta">{link.cta} <span aria-hidden="true">↗</span></span>
             </a>
           ))}
         </div>
