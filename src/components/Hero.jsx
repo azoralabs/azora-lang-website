@@ -124,7 +124,7 @@ export default function Hero({ engine }) {
             <span>Fast.</span> <span>Safe.</span> Expressive.
           </p>
           <p className="hero__copy">
-            A modern systems language with real-time IR generation and one source of truth for LLVM, JavaScript, WebAssembly, and direct interpretation.
+            An experimental modern systems language that redefines metaprogramming through real-time IR generation and a single source of truth for LLVM, JavaScript, WebAssembly, and direct interpretation.
           </p>
           <div className="hero__actions">
             <a className="button button--primary" href="https://code.azoralang.org" target="_blank" rel="noopener noreferrer">
@@ -134,12 +134,6 @@ export default function Hero({ engine }) {
             <a className="button button--glass" href="https://book.azoralang.org" target="_blank" rel="noopener noreferrer">
               Read the Book
             </a>
-          </div>
-          <div className="hero__targets" aria-label="Supported compilation targets">
-            <span>Interpreter</span>
-            <span>LLVM</span>
-            <span>JavaScript</span>
-            <span>WebAssembly</span>
           </div>
         </div>
         <a className="hero__scroll" href="#runtime">
@@ -204,6 +198,8 @@ export default function Hero({ engine }) {
           </div>
           <p className="runtime__note" data-reveal>
             Experimental release. Azora is evolving quickly and is not yet recommended for production systems.
+            <br />
+            <strong>Roadmap:</strong> Azora <strong>0.1-stable</strong> is planned for release in <strong>November 2026</strong>.
           </p>
         </div>
       </section>

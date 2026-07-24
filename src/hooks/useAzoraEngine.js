@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { loadWasmEngine } from '../engine/wasmLoader.js'
 
-const VERSION = '0.0.4-wasm'
+const VERSION = '0.0.4'
 
 export default function useAzoraEngine() {
   const [loading, setLoading] = useState(true)
