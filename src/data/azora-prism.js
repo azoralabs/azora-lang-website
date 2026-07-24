@@ -20,6 +20,10 @@ export default function azora(Prism) {
       pattern: /@\w+(?::[\w.]+)?(?:\([^)]*\))?/,
       alias: 'annotation',
     },
+    macro: {
+      pattern: /\b[a-z_]\w*@/,
+      alias: 'variable',
+    },
     preprocessor: {
       pattern: /\$\w+/,
       alias: 'variable',
@@ -35,7 +39,7 @@ export default function azora(Prism) {
               pattern: /^\$\{?|\}$/,
               alias: 'punctuation',
             },
-            keyword: /\b(?:var|let|fin|func|return|package|module|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|mixin|panic|for|while|loop|in|by|reverse|break|continue|pack|enum|slot|when|throw|try|catch|impl|spec|defer|typealias|type|as|guard|is|null|oper|infx|fail|alloc|drop|deref|unsafe|isolated|flow|yield|task|async|await|launch|bridge|solo|inject|wrap|rescue|node|leaf|repl|virt|base|mem|rem|ret|effect|view|hook|prop|ctor|dtor|flip|flop|ref|out|mut|shared|weak|expose|confine|protect|protected|threadlocal|deco|where|with|each|self|it)\b/,
+            keyword: /\b(?:var|let|fin|func|return|module|import|export|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|panic|for|while|loop|in|by|reverse|break|continue|pack|enum|slot|when|throw|try|catch|impl|spec|defer|typealias|type|as|guard|is|null|oper|fail|alloc|drop|deref|unsafe|isolate|flow|yield|task|await|launch|bridge|solo|inject|wrap|rescue|mem|rem|ret|effect|prop|ctor|dtor|flip|flop|out|expose|confine|protect|opaque|threadlocal|deco|where|with)\b/,
             punctuation: /[.]/,
           },
         },
@@ -43,7 +47,7 @@ export default function azora(Prism) {
     },
     number: /\b\d[\d_]*(?:\.[\d_]+)?(?:[eE][+-]?\d+)?[fFLlduUsSbB]?\b/,
     'type-keyword': {
-      pattern: /\b(?:Int|Real|Bool|String|Unit|Type|ReturnType|Byte|Short|Long|UInt|ULong|UByte|UShort|Float|Decimal|Char|Size|USize|Cent|UCent|Nothing|Any)\b/,
+      pattern: /\b(?:Int|Real|Bool|String|Unit|Type|ReturnType|Byte|Short|Long|UInt|ULong|UByte|UShort|Float|Decimal|Char|Size|USize|Cent|UCent|Nothing|Any|Func|Task|Flow)\b/,
       alias: 'class-name',
     },
     'builtin-fn': {
@@ -55,7 +59,7 @@ export default function azora(Prism) {
       pattern: /\bnull\b/,
       alias: 'boolean',
     },
-    keyword: /\b(?:var|let|fin|func|return|package|module|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|mixin|panic|for|while|loop|in|by|reverse|break|continue|pack|enum|slot|when|throw|try|catch|impl|spec|defer|typealias|type|as|guard|is|null|oper|infx|fail|alloc|drop|deref|unsafe|isolated|flow|yield|task|async|await|launch|bridge|solo|inject|wrap|rescue|node|leaf|repl|virt|base|mem|rem|ret|effect|view|hook|prop|ctor|dtor|flip|flop|ref|out|mut|shared|weak|expose|confine|protect|protected|threadlocal|deco|where|with|each|self|it)\b/,
+    keyword: /\b(?:var|let|fin|func|return|module|import|export|use|if|else|inline|deepinline|noinline|zone|friend|test|assert|trace|panic|for|while|loop|in|by|reverse|break|continue|pack|enum|slot|when|throw|try|catch|impl|spec|defer|typealias|type|as|guard|is|null|oper|infx|fail|alloc|drop|deref|unsafe|isolate|flow|yield|task|await|launch|bridge|solo|inject|wrap|rescue|mem|rem|ret|effect|prop|ctor|dtor|flip|flop|out|expose|confine|protect|threadlocal|deco|where|with)\b/,
     'type-name': {
       pattern: /\b[A-Z][a-zA-Z0-9_]*\b/,
       alias: 'class-name',

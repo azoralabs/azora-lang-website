@@ -20,7 +20,7 @@ export default function Navbar() {
 
         <div className="site-nav__meta" aria-label="Azora release">
           <span>Programming language</span>
-          <span className="version-tag">v0.0.3</span>
+          <span className="version-tag">v0.0.4</span>
         </div>
 
         <div className="site-nav__links">

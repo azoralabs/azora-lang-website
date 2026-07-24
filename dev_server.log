@@ -1,0 +1,9 @@
+
+> azora-lang-website@0.1.0 dev
+> vite --port 5174
+
+
+  VITE v6.4.1  ready in 175 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: use --host to expose

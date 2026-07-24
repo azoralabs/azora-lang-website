@@ -1,13 +1,15 @@
 export const codeExamples = [
   {
     title: 'Hello World',
-    code: `func main() {
-    println("Hello, world!")
+    code: `import std.io
+
+func main() {
+    std::println("Hello, world!")
 }`,
   },
   {
     title: 'Variables',
-    code: `use zone std
+    code: `import std.io
 
 func main() {
     // Mutable binding
@@ -18,16 +20,18 @@ func main() {
     fin greeting = "Hello, \${name}!"
 
     // Stdlib collections are Kotlin-inspired
-    fin items = listOf(1, 2, 3, 4, 5)
+    fin items = vec@[1, 2, 3, 4, 5]
     count = items.size
 
-    println(greeting)
-    println("\${count}")
+    std::println(greeting)
+    trace { "\${count}" }
 }`,
   },
   {
     title: 'Functions & Lambdas',
-    code: `// Named function with return type
+    code: `import std.io
+
+// Named function with return type
 func add(a: Int, b: Int): Int {
     return a + b
 }
@@ -36,28 +40,30 @@ func add(a: Int, b: Int): Int {
 func square(x: Int): Int = x * x
 
 // Higher-order function
-func apply(value: Int, transform: (Int) -> Int): Int {
+func apply(value: Int, transform: Func(Int) -> Int): Int {
     return transform(value)
 }
 
 func main() {
-    println("\${add(3, 4)}")
-    println("\${square(5)}")
+    std::println("\${add(3, 4)}")
+    std::println("\${square(5)}")
 
     // Lambda
-    fin double = { x -> x * 2 }
-    println("\${apply(5, double)}")
+    fin double = { x: Int -> x * 2 }
+    std::println("\${apply(5, double)}")
 }`,
   },
-  {
+/*  {
     title: 'Tuples',
-    code: `func divmod(a: Int, b: Int): (Int, Int) {
-    return (a / b, a % b)
-}
+    code: `import std.container.tuple
+
+func divmod(a: Int, b: Int): (Int, Int) {
+    return tup@(a / b, a % b)
+} // bug. It must use macro .Type syntax
 
 func main() {
     // Tuple literal
-    fin pair = (42, "hello")
+    fin pair = tup@(42, "hello")
     println("\${pair.0}")
     println(pair.1)
 
@@ -67,14 +73,16 @@ func main() {
     println("remainder: \${result.1}")
 
     // Nested tuple
-    fin nested = (1, (2, 3), "end")
+    fin nested = tup@(1, tup@(2, 3), "end")
     fin inner = nested.1
     println("\${inner.0}")
 }`,
-  },
+  },*/
   {
     title: 'Packs & Enums',
-    code: `pack Point {
+    code: `import std.io
+
+pack Point {
     var x: Real
     var y: Real
 }
@@ -92,15 +100,17 @@ func main() {
 
     fin dx = p.x - origin.x
     fin dy = p.y - origin.y
-    println("Distance squared: \${dx * dx + dy * dy}")
+    std::println("Distance squared: \${dx * dx + dy * dy}")
 
     fin dir = Direction.North
-    println("\${dir}")
+    std::println("\${dir}")
 }`,
   },
   {
     title: 'Slots',
-    code: `slot Shape {
+    code: `import std.io
+
+slot Shape {
     Circle(radius: Real)
     Rectangle(width: Real, height: Real)
     Point
@@ -123,37 +133,10 @@ func main() {
 }`,
   },
   {
-    title: 'Inheritance',
-    code: `node Animal(var name: String) {
-    func speak(): String {
-        return "..."
-    }
-}
-
-node Dog(var breed: String, var name: String) : Animal(name) {
-    repl func speak(): String {
-        return "Woof! I'm \${this.name}"
-    }
-}
-
-node Cat(var name: String) : Animal(name) {
-    repl func speak(): String {
-        return "Meow!"
-    }
-}
-
-func main() {
-    fin dog = Dog(breed: "Labrador", name: "Rex")
-    fin cat = Cat("Whiskers")
-
-    println(dog.speak())
-    println(cat.speak())
-    println(dog.breed)
-}`,
-  },
-  {
     title: 'Generics',
-    code: `pack Pair<A, B> {
+    code: `import std.io
+
+pack Pair<A, B> {
     var first: A
     var second: B
 }
@@ -164,33 +147,35 @@ func swap<A, B>(pair: Pair<A, B>): Pair<B, A> {
 
 func main() {
     fin p = Pair<String, Int>("hello", 42)
-    println("\${p.first}, \${p.second}")
+    std::println("\${p.first}, \${p.second}")
 
     fin s = swap<String, Int>(p)
-    println("\${s.first}, \${s.second}")
+    std::println("\${s.first}, \${s.second}")
 }`,
   },
-  {
+  /*{
     title: 'Async / Await',
     code: `task main() {
-    fin a = async { "Hello, Alice!" }
-    fin b = async { "Hello, Bob!" }
+    fin a = task { "Hello, Alice!" }
+    fin b = task { "Hello, Bob!" }
 
     // Await both results
     println(await a)
     println(await b)
 }`,
-  },
+  },*/
   {
     title: 'Flows',
-    code: `flow range(n: Int): Int {
-    for i: Int in 0..n {
+    code: `import std.io
+
+flow range(n: Int): Int {
+    for i in 0..n {
         yield i
     }
 }
 
 flow evens(n: Int): Int {
-    for i: Int in 0..n {
+    for i in 0..n {
         if i % 2 == 0 {
             yield i
         }
@@ -199,13 +184,13 @@ flow evens(n: Int): Int {
 
 task main() {
     var sum = 0
-    async for x in range(5) {
+    for x in range(5) {
         sum = sum + x
     }
-    println("Sum 0..5: \${sum}")
+    std::println("Sum 0..5: \${sum}")
 
-    async for e in evens(10) {
-        println("\${e}")
+    for e in evens(10) {
+        std::println("\${e}")
     }
 }`,
   },
@@ -230,24 +215,26 @@ test "factorial of 1 is 1" {
   },
   {
     title: 'Error Handling',
-    code: `fail MathError {
+    code: `import std.io
+
+fail MathError {
     DivisionByZero
     Overflow
 }
 
-func safeDivide(a: Int, b: Int): Int!MathError {
-    if b == 0 { throw .DivisionByZero }
+func safeDivide(a: Int, b: Int): Int ?! MathError {
+    if b == 0 { return .DivisionByZero }
     return a / b
 }
 
 func main() {
     // Catch with default value
     fin result = safeDivide(10, 0) catch -1
-    println("10 / 0 = \${result}")
+    std::println("10 / 0 = \${result}")
 
     // Successful division
     fin ok = safeDivide(10, 2) catch 0
-    println("10 / 2 = \${ok}")
+    std::println("10 / 2 = \${ok}")
 }`,
   },
   {
@@ -255,12 +242,10 @@ func main() {
     code: `func clamp(x: Int, lo: Int, hi: Int): Int
 in {
     assert lo <= hi { "lo must be <= hi" }
-}
-out { r ->
-    assert r >= lo { "result must be >= lo" }
-    assert r <= hi { "result must be <= hi" }
-}
-zone {
+} out {
+    assert it >= lo { "result must be >= lo" }
+    assert it <= hi { "result must be <= hi" }
+} zone {
     if x < lo { return lo }
     if x > hi { return hi }
     return x
@@ -280,27 +265,22 @@ test "clamp above maximum" {
   },
   {
     title: 'Collections',
-    code: `use zone std
+    code: `import std.io
 
 func main() {
-    fin numbers = listOf(1, 2, 3, 4, 5)
-    println("List size: \${numbers.size}")
+    fin numbers = vec@[1, 2, 3, 4, 5]
+    std::println("List size: \${numbers.size}")
 
     // setOf deduplicates
-    fin unique = setOf(1, 2, 2, 3, 3, 3)
-    println("Set size: \${unique.size}")
-
-    var scores = MutableMap<String, Int>()
-    scores.put("alice", 95)
-    scores.put("bob", 87)
-    println("Bob: \${scores["bob"]}")
+    fin unique = set@[1, 2, 2, 3, 3, 3]
+    std::println("Set size: \${unique.size}")
 }`,
   },
-  {
+  /*{
     title: 'Metaprogramming',
     code: `deco Range {
-    min: Int
-    max: Int
+    fin min: Int
+    fin max: Int
 }
 
 deco Serializable
@@ -323,12 +303,14 @@ deepinline {
 }
 
 func main() {
-    println("Health: \${health}")
+    trace "Health: \${health}"
 }`,
-  },
+  },*/
   {
     title: 'Pointers & Memory',
-    code: `pack Node {
+    code: `import std.io
+
+pack Node {
     var value: Int
     var next: Node* = null
 }
@@ -346,7 +328,7 @@ func main() {
     // Traverse the linked list
     var current: Node* = a
     while current != null {
-        println((deref current).value)
+        std::println((deref current).value)
         current = (deref current).next
     }
 
@@ -364,7 +346,7 @@ solo Logger {
 
     func log(msg: String) {
         if level > 0 {
-            println("[LOG] " + msg)
+            trace "[LOG] $msg"
         }
     }
 }
@@ -374,7 +356,7 @@ solo Database {
 
     func connect() {
         connected = true
-        println("Database connected")
+        trace "Database connected"
     }
 
     func query(sql: String): String {
@@ -409,26 +391,29 @@ func main() {
   {
     title: 'Reactivity',
     code: `// Persistent state with rem
+@Reactive
 func counter() {
-    rem count: Int = 0
+    ret count: Int = 0
     count = count + 1
-    println("Call #\${count}")
+    trace { "Call #\${count}" }
 }
 
 // Reactive views
-view Greeting(name: String) {
-    rem visits: Int = 0
+@Reactive
+func Greeting(name: String) {
+    ret visits: Int = 0
     visits = visits + 1
 
-    println("Hello, \${name}!")
-    println("Visited \${visits} times")
+    trace .Info "Hello, \${name}!"
+    trace .Info "Visited \${visits} times"
 
     // Side effects that track dependencies
     effect name {
-        println("Name changed to: \${name}")
+        trace .Warn "Name changed to: \${name}"
     }
 }
 
+@Reactive
 func main() {
     // rem persists across calls
     counter()   // Call #1
@@ -436,4 +421,4 @@ func main() {
     counter()   // Call #3
 }`,
   },
-]
+];

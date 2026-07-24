@@ -7,23 +7,24 @@ azoraDef(Prism)
 
 const defaultCode = `module playground
 
-use std.container.tuple
+import std.io
+import std.container.tuple
 
-use zone std
-
-pack App {
+pack Language {
     var name: String
+    fin version = "v0.0.4"
 }
 
-impl App {
-    func greet(): String { ref self ->
+impl Language {
+    func greet(): String { self& ->
         return "Hello from \${self.name}!"
     }
 }
 
 func main() {
-    fin app = App("Azora")
-    println(tupleOf(app.greet(), ":)"))
+    fin app = Language("Azora")
+    std::println(tup@(app.greet(), ":)"))
+    trace "Version: \${app.version}"
 }`
 
 const PlayIcon = () => (
@@ -64,6 +65,7 @@ const tokenCSS = `
 .az-editor .token.doc-param-name { color: #D9D9D9; }
 .az-editor .token.annotation, .az-editor .token.decorator { color: #E6C96B; }
 .az-editor .token.variable, .az-editor .token.preprocessor { color: #B06FA8; font-style: italic; }
+.az-editor .token.macro { color: #B06FA8; font-weight: bold; }
 .az-editor .token.interpolation { color: #D9D9D9; }
 .az-editor .token.interpolation-punctuation { color: #E6C96B; }
 .az-editor .token.operator { color: #B2B3B3; }

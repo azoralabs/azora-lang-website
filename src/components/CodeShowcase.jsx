@@ -17,6 +17,7 @@ const tokenCSS = `
 .az-showcase .token.doc-tag { color: #5BA3D0; font-weight: bold; }
 .az-showcase .token.annotation, .az-showcase .token.decorator { color: #E6C96B; }
 .az-showcase .token.variable, .az-showcase .token.preprocessor { color: #B06FA8; font-style: italic; }
+.az-showcase .token.macro { color: #B06FA8; font-weight: bold; }
 .az-showcase .token.interpolation { color: #D9D9D9; }
 .az-showcase .token.interpolation-punctuation { color: #E6C96B; }
 .az-showcase .token.operator { color: #B2B3B3; }
