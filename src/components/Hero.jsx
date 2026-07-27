@@ -1,9 +1,8 @@
-import { useState, useMemo } from 'react'
-import Editor from 'react-simple-code-editor'
-import Prism from 'prismjs'
-import azoraDef from '../data/azora-prism'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import useAzoraLanguageServer from '../hooks/useAzoraLanguageServer.js'
+import { parseCompilerDiagnostics } from '../engine/compilerDiagnostics.js'
 
-azoraDef(Prism)
+const MiniCodeEditor = lazy(() => import('./MiniCodeEditor.jsx'))
 
 const defaultCode = `module playground
 
@@ -56,7 +55,8 @@ const tokenCSS = `
 .az-editor .token.keyword { color: #D16B8E; font-weight: bold; }
 .az-editor .token.boolean, .az-editor .token.null-literal { color: #D16B8E; font-weight: bold; }
 .az-editor .token.class-name, .az-editor .token.type-keyword, .az-editor .token.type-name { color: #5FA89F; }
-.az-editor .token.builtin, .az-editor .token.builtin-fn, .az-editor .token.function { color: #D4A574; }
+.az-editor .token.builtin, .az-editor .token.builtin-fn, .az-editor .token.function { color: #E6C96B; }
+.az-editor .token.parameter { color: #B8B8B8; text-decoration: underline; text-underline-offset: 3px; }
 .az-editor .token.string { color: #7DBF8A; }
 .az-editor .token.number { color: #ECECEC; }
 .az-editor .token.comment { color: #676767; font-style: italic; }
@@ -64,7 +64,8 @@ const tokenCSS = `
 .az-editor .token.doc-tag { color: #5BA3D0; font-weight: bold; }
 .az-editor .token.doc-param-name { color: #D9D9D9; }
 .az-editor .token.annotation, .az-editor .token.decorator { color: #E6C96B; }
-.az-editor .token.variable, .az-editor .token.preprocessor { color: #B06FA8; font-style: italic; }
+.az-editor .token.variable { color: #D9DADA; }
+.az-editor .token.preprocessor { color: #B06FA8; font-style: italic; }
 .az-editor .token.macro { color: #B06FA8; font-weight: bold; }
 .az-editor .token.interpolation { color: #D9D9D9; }
 .az-editor .token.interpolation-punctuation { color: #E6C96B; }
@@ -72,33 +73,35 @@ const tokenCSS = `
 .az-editor .token.punctuation { color: #B2B3B3; }
 `
 
-const editorStyle = {
-  fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace",
-  fontSize: '0.85rem',
-  lineHeight: '1.6',
-  background: 'transparent',
-  color: '#D9D9D9',
-  caretColor: '#D9D9D9',
-  minHeight: '12rem',
-}
-
 export default function Hero({ engine }) {
   const [code, setCode] = useState(defaultCode)
   const [output, setOutput] = useState(null)
   const [runningMode, setRunningMode] = useState(null)
+  const [compilerDiagnostics, setCompilerDiagnostics] = useState([])
+  const azls = useAzoraLanguageServer('0.0.4')
 
   const { hasMain, hasTests } = useMemo(() => detectCapabilities(code), [code])
   const running = runningMode !== null
 
-  function highlightCode(code) {
-    return Prism.highlight(code, Prism.languages.azora, 'azora')
-  }
+  useEffect(() => {
+    if (!engine.ready) return undefined
+    const timer = window.setTimeout(() => {
+      const result = engine.check(code)
+      setCompilerDiagnostics(
+        result.success ? [] : parseCompilerDiagnostics(result.errors, code),
+      )
+    }, 220)
+    return () => window.clearTimeout(timer)
+  }, [code, engine.check, engine.ready])
 
   async function handleRun() {
     if (!engine.ready || running) return
     setRunningMode('run')
     setOutput(null)
     const result = await engine.interpret(code)
+    setCompilerDiagnostics(
+      result.success ? [] : parseCompilerDiagnostics(result.errors, code),
+    )
     setOutput(result)
     setRunningMode(null)
   }
@@ -108,6 +111,9 @@ export default function Hero({ engine }) {
     setRunningMode('test')
     setOutput(null)
     const result = await engine.runTests(code)
+    setCompilerDiagnostics(
+      result.success ? [] : parseCompilerDiagnostics(result.errors, code),
+    )
     setOutput(result)
     setRunningMode(null)
   }
@@ -175,15 +181,16 @@ export default function Hero({ engine }) {
               </div>
             </div>
             <div className="az-editor runtime__editor">
-              <Editor
-                value={code}
-                onValueChange={setCode}
-                highlight={highlightCode}
-                padding={24}
-                style={{ ...editorStyle, minHeight: '100%' }}
-                tabSize={4}
-                insertSpaces
-              />
+              <Suspense fallback={<div className="runtime__editor-loading">Loading editor</div>}>
+                <MiniCodeEditor
+                  source={code}
+                  onChange={setCode}
+                  onRun={handleRun}
+                  onRunTests={handleRunTests}
+                  languageServer={azls.server}
+                  diagnostics={compilerDiagnostics}
+                />
+              </Suspense>
             </div>
             {output && (
               <div className="runtime__output">

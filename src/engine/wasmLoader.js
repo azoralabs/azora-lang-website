@@ -19,6 +19,13 @@ export async function loadWasmEngine(version) {
   const mod = await waitForExports()
 
   return {
+    check(source) {
+      try {
+        return JSON.parse(mod.azPreprocess(source))
+      } catch (e) {
+        return { success: false, output: '', errors: e.message || String(e) }
+      }
+    },
     async interpret(source) {
       try {
         const json = await mod.azInterpret(source)

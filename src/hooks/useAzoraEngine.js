@@ -35,10 +35,15 @@ export default function useAzoraEngine() {
     return engineRef.current.interpret(source)
   }, [])
 
+  const check = useCallback((source) => {
+    if (!engineRef.current) return { success: false, output: '', errors: 'Engine not loaded' }
+    return engineRef.current.check(source)
+  }, [])
+
   const runTests = useCallback(async (source) => {
     if (!engineRef.current) return { success: false, output: '', errors: 'Engine not loaded' }
     return engineRef.current.runTests(source)
   }, [])
 
-  return { loading, error, ready: !loading && !error, interpret, runTests }
+  return { loading, error, ready: !loading && !error, check, interpret, runTests }
 }

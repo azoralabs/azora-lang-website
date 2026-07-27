@@ -1,22 +1,22 @@
 import { useState, useMemo } from 'react'
 import Prism from 'prismjs'
-import azoraDef from '../data/azora-prism'
+import { highlightAzora } from '../data/azora-prism'
 import { codeExamples } from '../data/codeExamples'
-
-azoraDef(Prism)
 
 const tokenCSS = `
 .az-showcase .token.keyword { color: #D16B8E; font-weight: bold; }
 .az-showcase .token.boolean, .az-showcase .token.null-literal { color: #D16B8E; font-weight: bold; }
 .az-showcase .token.class-name, .az-showcase .token.type-keyword, .az-showcase .token.type-name { color: #5FA89F; }
-.az-showcase .token.builtin, .az-showcase .token.builtin-fn, .az-showcase .token.function { color: #D4A574; }
+.az-showcase .token.builtin, .az-showcase .token.builtin-fn, .az-showcase .token.function { color: #E6C96B; }
+.az-showcase .token.parameter { color: #B8B8B8; text-decoration: underline; text-underline-offset: 3px; }
 .az-showcase .token.string { color: #7DBF8A; }
 .az-showcase .token.number { color: #ECECEC; }
 .az-showcase .token.comment { color: #676767; font-style: italic; }
 .az-showcase .token.doc-comment { color: #6B9F77; font-style: italic; }
 .az-showcase .token.doc-tag { color: #5BA3D0; font-weight: bold; }
 .az-showcase .token.annotation, .az-showcase .token.decorator { color: #E6C96B; }
-.az-showcase .token.variable, .az-showcase .token.preprocessor { color: #B06FA8; font-style: italic; }
+.az-showcase .token.variable { color: #D9DADA; }
+.az-showcase .token.preprocessor { color: #B06FA8; font-style: italic; }
 .az-showcase .token.macro { color: #B06FA8; font-weight: bold; }
 .az-showcase .token.interpolation { color: #D9D9D9; }
 .az-showcase .token.interpolation-punctuation { color: #E6C96B; }
@@ -50,7 +50,7 @@ function detectCapabilities(code) {
 }
 
 function highlightCode(code) {
-  return Prism.highlight(code, Prism.languages.azora, 'azora')
+  return highlightAzora(Prism, code)
 }
 
 export default function CodeShowcase({ engine }) {

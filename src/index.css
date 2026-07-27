@@ -595,6 +595,66 @@ svg {
   background: rgba(4, 6, 8, 0.48);
 }
 
+.runtime__code-editor,
+.runtime__code-editor .cm-editor {
+  min-height: 100%;
+}
+
+.runtime__editor-loading {
+  display: grid;
+  min-height: 100%;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  place-items: center;
+}
+
+.runtime__code-editor .cm-editor {
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.runtime__code-editor .cm-scroller {
+  overflow: visible;
+}
+
+.runtime__code-editor .cm-content {
+  min-height: 31rem;
+  padding: 24px;
+}
+
+.runtime__code-editor .cm-line {
+  padding: 0;
+}
+
+.runtime__code-editor .cm-tooltip {
+  z-index: 20;
+}
+
+.azls-hover {
+  min-width: 15rem;
+  max-width: min(34rem, calc(100vw - 40px));
+  padding: 10px 12px;
+}
+
+.azls-hover-path {
+  margin-bottom: 6px;
+  color: #8d979e;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+.azls-hover pre {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: #e8ecee;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  white-space: pre-wrap;
+}
+
 .runtime__output {
   max-height: 10rem;
   overflow: auto;

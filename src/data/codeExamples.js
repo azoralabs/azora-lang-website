@@ -53,31 +53,32 @@ func main() {
     std::println("\${apply(5, double)}")
 }`,
   },
-/*  {
+  {
     title: 'Tuples',
-    code: `import std.container.tuple
+    code: `import std.io
+import std.container.tuple
 
 func divmod(a: Int, b: Int): (Int, Int) {
     return tup@(a / b, a % b)
-} // bug. It must use macro .Type syntax
+}
 
 func main() {
     // Tuple literal
     fin pair = tup@(42, "hello")
-    println("\${pair.0}")
-    println(pair.1)
+    std::println("\${pair.0}")
+    std::println(pair.1)
 
     // Tuple as return value
     fin result = divmod(17, 5)
-    println("quotient: \${result.0}")
-    println("remainder: \${result.1}")
+    std::println("quotient: \${result.0}")
+    std::println("remainder: \${result.1}")
 
     // Nested tuple
     fin nested = tup@(1, tup@(2, 3), "end")
     fin inner = nested.1
-    println("\${inner.0}")
+    std::println("\${inner.0}")
 }`,
-  },*/
+  },
   {
     title: 'Packs & Enums',
     code: `import std.io
