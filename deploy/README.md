@@ -27,13 +27,13 @@ requesting the certificate.
 Expose these organization or repository secrets to all four repositories:
 
 - `VPS_USER`: SSH user that owns the four document roots.
-- `VPS_PORT`: optional SSH port; defaults to `22`.
 - `VPS_SSH_KEY`: private SSH key for `VPS_USER`.
 
-The workflows temporarily fall back to the existing `HOSTINGER_PORT`,
-`HOSTINGER_USER`, and `HOSTINGER_SSH_KEY` names so credentials can be migrated
-without interrupting deployment. The public VPS address is intentionally kept
-in the workflow rather than stored as a secret.
+The workflows temporarily fall back to the existing `HOSTINGER_USER` and
+`HOSTINGER_SSH_KEY` names so credentials can be migrated without interrupting
+deployment. The old Hostinger port is intentionally ignored; the VPS uses
+the verified SSH port `22`. The public VPS address is kept in the workflow
+rather than stored as a secret.
 
 Each push to `main` builds with `npm ci` and synchronizes `dist/` to that
 site's document root. `rsync --delete` removes stale hashed assets without
