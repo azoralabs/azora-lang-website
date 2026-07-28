@@ -1,3 +1,5 @@
+import ExternalLinkIcon from './ExternalLinkIcon.jsx'
+
 const links = [
   {
     title: 'Playground',
@@ -38,7 +40,7 @@ export default function Ecosystem() {
               <span className="ecosystem-card__label">{link.label}</span>
               <h3>{link.title}</h3>
               <p>{link.desc}</p>
-              <span className="ecosystem-card__cta">{link.cta} <span aria-hidden="true">↗</span></span>
+              <span className="ecosystem-card__cta">{link.cta} <ExternalLinkIcon /></span>
             </a>
           ))}
         </div>

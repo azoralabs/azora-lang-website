@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import useAzoraLanguageServer from '../hooks/useAzoraLanguageServer.js'
 import { parseCompilerDiagnostics } from '../engine/compilerDiagnostics.js'
+import ExternalLinkIcon from './ExternalLinkIcon.jsx'
 
 const MiniCodeEditor = lazy(() => import('./MiniCodeEditor.jsx'))
 
@@ -135,7 +136,7 @@ export default function Hero({ engine }) {
           <div className="hero__actions">
             <a className="button button--primary" href="https://code.azoralang.org" target="_blank" rel="noopener noreferrer">
               Try Azora
-              <span aria-hidden="true">↗</span>
+              <ExternalLinkIcon />
             </a>
             <a className="button button--glass" href="https://book.azoralang.org" target="_blank" rel="noopener noreferrer">
               Read the Book

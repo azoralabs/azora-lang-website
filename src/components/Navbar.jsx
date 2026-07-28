@@ -46,11 +46,10 @@ export default function Navbar() {
       <div className="page-shell site-nav__inner">
         <Link to="/" className="site-nav__brand" aria-label="Azora language home">
           <img src="/assets/azora_logo.svg" alt="" />
-          <span>Azora</span>
+          <span>Azora Lang</span>
         </Link>
 
         <div className="site-nav__meta" aria-label="Azora release">
-          <span>Programming language</span>
           <span className="version-tag">v0.0.4</span>
         </div>
 
@@ -65,10 +64,10 @@ export default function Navbar() {
               aria-haspopup="menu"
               onClick={() => setEcosystemOpen((open) => !open)}
             >
-              Azora Labs
+              Ecosystem
             </button>
             {ecosystemOpen && (
-              <div className="site-nav__dropdown glass-panel" role="menu">
+              <div className="site-nav__dropdown" role="menu">
                 {ecosystemLinks.map((link) => (
                   <a key={link.href} href={link.href} role="menuitem">
                     <strong>{link.label}</strong>
@@ -92,11 +91,11 @@ export default function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="site-nav__mobile glass-panel">
+        <div className="site-nav__mobile">
           {productLinks.map((link) => (
             <a key={link.href} href={link.href} onClick={closeMobile}>{link.label}</a>
           ))}
-          <span className="site-nav__mobile-label">Azora Labs</span>
+          <span className="site-nav__mobile-label">Azora Ecosystem</span>
           {ecosystemLinks.map((link) => (
             <a key={link.href} href={link.href} onClick={closeMobile}>{link.label}</a>
           ))}

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import Prism from 'prismjs'
 import { highlightAzora } from '../data/azora-prism'
 import { codeExamples } from '../data/codeExamples'
+import ExternalLinkIcon from './ExternalLinkIcon.jsx'
 
 const tokenCSS = `
 .az-showcase .token.keyword { color: #D16B8E; font-weight: bold; }
@@ -118,7 +119,7 @@ export default function CodeShowcase({ engine }) {
             className="button button--glass button--compact"
           >
             Open in Playground
-            <span aria-hidden="true">↗</span>
+            <ExternalLinkIcon />
           </a>
         </div>
 
@@ -161,7 +162,7 @@ export default function CodeShowcase({ engine }) {
               background: 'transparent',
               padding: '1.25rem',
               margin: 0,
-              fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace",
+              fontFamily: 'var(--font-code)',
               fontSize: '0.875rem',
               lineHeight: '1.6',
               color: '#D9D9D9',

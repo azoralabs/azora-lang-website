@@ -29,6 +29,9 @@ export const azoraTheme = EditorView.theme({
   '.cm-azls-string, .cm-azls-char': {
     color: '#7DBF8A',
   },
+  '.cm-azls-interpolation-punctuation': {
+    color: '#E6C96B',
+  },
   '.cm-azls-comment': {
     color: '#676767',
     fontStyle: 'italic',
