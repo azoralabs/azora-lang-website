@@ -22,6 +22,8 @@ fi
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 nginx_source="${script_dir}/nginx/azoralang.org.conf"
 nginx_target=/etc/nginx/sites-available/azoralang.org
+products_nginx_source="${script_dir}/nginx/azora-products.conf"
+products_nginx_target=/etc/nginx/sites-available/azora-products
 
 apt-get update
 apt-get install --yes nginx rsync certbot python3-certbot-nginx
@@ -30,13 +32,18 @@ for domain in \
     azoralang.org \
     docs.azoralang.org \
     code.azoralang.org \
-    book.azoralang.org
+    book.azoralang.org \
+    azoralabs.org \
+    azoraengine.org \
+    azorastudio.org
 do
     install -d -m 2775 -o "${deploy_user}" -g www-data "/var/www/${domain}/html"
 done
 
 install -m 0644 "${nginx_source}" "${nginx_target}"
+install -m 0644 "${products_nginx_source}" "${products_nginx_target}"
 ln -sfn "${nginx_target}" /etc/nginx/sites-enabled/azoralang.org
+ln -sfn "${products_nginx_target}" /etc/nginx/sites-enabled/azora-products
 
 nginx -t
 systemctl reload nginx
@@ -52,6 +59,27 @@ if [[ -n ${certificate_email} ]]; then
         -d docs.azoralang.org \
         -d code.azoralang.org \
         -d book.azoralang.org
+    certbot --nginx \
+        --non-interactive \
+        --agree-tos \
+        --redirect \
+        --email "${certificate_email}" \
+        -d azoralabs.org \
+        -d www.azoralabs.org
+    certbot --nginx \
+        --non-interactive \
+        --agree-tos \
+        --redirect \
+        --email "${certificate_email}" \
+        -d azoraengine.org \
+        -d www.azoraengine.org
+    certbot --nginx \
+        --non-interactive \
+        --agree-tos \
+        --redirect \
+        --email "${certificate_email}" \
+        -d azorastudio.org \
+        -d www.azorastudio.org
 else
     echo "Nginx is ready. Re-run with a certificate email after every DNS name points to this VPS."
 fi

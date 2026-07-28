@@ -1,6 +1,6 @@
 # Azora VPS deployment
 
-The four website repositories deploy independently to `152.239.116.142`:
+The seven website repositories deploy independently to `152.239.116.142`:
 
 | Repository | Domain | Document root |
 | --- | --- | --- |
@@ -8,6 +8,9 @@ The four website repositories deploy independently to `152.239.116.142`:
 | `azora-lang-docs-website` | `docs.azoralang.org` | `/var/www/docs.azoralang.org/html` |
 | `azora-lang-code-website` | `code.azoralang.org` | `/var/www/code.azoralang.org/html` |
 | `azora-lang-book-website` | `book.azoralang.org` | `/var/www/book.azoralang.org/html` |
+| `azora-labs-website` | `azoralabs.org` | `/var/www/azoralabs.org/html` |
+| `azora-engine-website` | `azoraengine.org` | `/var/www/azoraengine.org/html` |
+| `azora-studio-website` | `azorastudio.org` | `/var/www/azorastudio.org/html` |
 
 ## One-time VPS setup
 
@@ -24,7 +27,7 @@ requesting the certificate.
 
 ## GitHub Actions secrets
 
-Expose this organization or repository secret to all four repositories:
+Expose this organization or repository secret to all seven repositories:
 
 - `AZORA_SSH_PRIVATE_KEY`: private SSH key for the dedicated `azora-deploy`
   account.

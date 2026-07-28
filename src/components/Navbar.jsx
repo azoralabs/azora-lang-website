@@ -1,19 +1,50 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const external = [
+const productLinks = [
+  { label: 'Features', href: '#features' },
+  { label: 'Targets', href: '#targets' },
   { label: 'Playground', href: 'https://code.azoralang.org' },
   { label: 'Book', href: 'https://book.azoralang.org' },
   { label: 'Docs', href: 'https://docs.azoralang.org' },
 ]
 
+const ecosystemLinks = [
+  { label: 'Azora Labs', description: 'Open-source organization', href: 'https://azoralabs.org' },
+  { label: 'Azora Engine', description: 'Cross-platform game engine', href: 'https://azoraengine.org' },
+  { label: 'Azora Studio', description: 'Development environment', href: 'https://azorastudio.org' },
+  { label: 'Azora Dev', description: 'Community and technical Q&A', href: 'https://azora.dev' },
+]
+
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [ecosystemOpen, setEcosystemOpen] = useState(false)
+  const ecosystemRef = useRef(null)
+
+  useEffect(() => {
+    const closeMenus = (event) => {
+      if (event.key === 'Escape') {
+        setMobileOpen(false)
+        setEcosystemOpen(false)
+      }
+      if (event.type === 'pointerdown' && !ecosystemRef.current?.contains(event.target)) {
+        setEcosystemOpen(false)
+      }
+    }
+    document.addEventListener('keydown', closeMenus)
+    document.addEventListener('pointerdown', closeMenus)
+    return () => {
+      document.removeEventListener('keydown', closeMenus)
+      document.removeEventListener('pointerdown', closeMenus)
+    }
+  }, [])
+
+  const closeMobile = () => setMobileOpen(false)
 
   return (
     <nav className="site-nav">
       <div className="page-shell site-nav__inner">
-        <Link to="/" className="site-nav__brand" aria-label="Azora home">
+        <Link to="/" className="site-nav__brand" aria-label="Azora language home">
           <img src="/assets/azora_logo.svg" alt="" />
           <span>Azora</span>
         </Link>
@@ -24,51 +55,54 @@ export default function Navbar() {
         </div>
 
         <div className="site-nav__links">
-          <a href="#features">Features</a>
-          <a href="#targets">Targets</a>
-          {external.map(s => (
-            <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer">
-              {s.label}
-            </a>
+          {productLinks.map((link) => (
+            <a key={link.href} href={link.href}>{link.label}</a>
           ))}
-          <a className="site-nav__donate" href="https://azoralabs.org/donate" target="_blank" rel="noopener noreferrer">
-            Donate
-          </a>
+          <div className="site-nav__ecosystem" ref={ecosystemRef}>
+            <button
+              className={`site-nav__ecosystem-trigger ${ecosystemOpen ? 'is-open' : ''}`}
+              aria-expanded={ecosystemOpen}
+              aria-haspopup="menu"
+              onClick={() => setEcosystemOpen((open) => !open)}
+            >
+              Azora Labs
+            </button>
+            {ecosystemOpen && (
+              <div className="site-nav__dropdown glass-panel" role="menu">
+                {ecosystemLinks.map((link) => (
+                  <a key={link.href} href={link.href} role="menuitem">
+                    <strong>{link.label}</strong>
+                    <span>{link.description}</span>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+          <a className="site-nav__donate" href="https://azoralabs.org/donate">Donate</a>
         </div>
 
         <button
-          onClick={() => setOpen(!open)}
+          onClick={() => setMobileOpen((open) => !open)}
           className="site-nav__toggle"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            {open ? (
-              <>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </>
-            ) : (
-              <>
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </>
-            )}
-          </svg>
+          <span aria-hidden="true">{mobileOpen ? '×' : '☰'}</span>
         </button>
       </div>
 
-      {open && (
+      {mobileOpen && (
         <div className="site-nav__mobile glass-panel">
-          <a href="#features" onClick={() => setOpen(false)}>Features</a>
-          <a href="#targets" onClick={() => setOpen(false)}>Targets</a>
-          {external.map(s => (
-            <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer">
-              {s.label}
-            </a>
+          {productLinks.map((link) => (
+            <a key={link.href} href={link.href} onClick={closeMobile}>{link.label}</a>
           ))}
-          <a href="https://azoralabs.org/community" target="_blank" rel="noopener noreferrer">Community</a>
+          <span className="site-nav__mobile-label">Azora Labs</span>
+          {ecosystemLinks.map((link) => (
+            <a key={link.href} href={link.href} onClick={closeMobile}>{link.label}</a>
+          ))}
+          <a className="site-nav__mobile-donate" href="https://azoralabs.org/donate" onClick={closeMobile}>
+            Donate
+          </a>
         </div>
       )}
     </nav>
