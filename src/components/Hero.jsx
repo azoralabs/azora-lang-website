@@ -56,15 +56,29 @@ const tokenCSS = `
 .az-editor .token.keyword { color: #D16B8E; font-weight: bold; }
 .az-editor .token.boolean, .az-editor .token.null-literal { color: #D16B8E; font-weight: bold; }
 .az-editor .token.class-name, .az-editor .token.type-keyword, .az-editor .token.type-name { color: #5FA89F; }
+.az-editor .token.spec-type { color: #5FA89F; font-style: italic; }
+.az-editor .token.zone { color: #D9DADA; font-style: italic; }
+.az-editor .token.module-path { color: #D9DADA; font-style: italic; }
+.az-editor .token.generic { color: #5BA3D0; font-weight: bold; }
 .az-editor .token.builtin, .az-editor .token.builtin-fn, .az-editor .token.function { color: #E6C96B; }
-.az-editor .token.parameter { color: #B8B8B8; text-decoration: underline; text-underline-offset: 3px; }
+.az-editor .token.spec-function { color: #E6C96B; font-style: italic; }
+.az-editor .token.override-function { color: #E6C96B; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-editor .token.parameter { color: #D9DADA; text-decoration: underline; text-underline-offset: 3px; }
+.az-editor .token.property { color: #D9DADA; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-editor .token.spec-property { color: #D9DADA; font-style: italic; }
+.az-editor .token.override-property { color: #D9DADA; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-editor .token.unused { color: #B8B8B8; }
+.az-editor .token.unused-parameter { color: #B8B8B8; text-decoration: underline; text-underline-offset: 3px; }
+.az-editor .token.unused-property { color: #B8B8B8; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-editor .token.unused-spec-function, .az-editor .token.unused-spec-property { color: #B8B8B8; font-style: italic; }
+.az-editor .token.unused-override-function, .az-editor .token.unused-override-property { color: #B8B8B8; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
 .az-editor .token.string { color: #7DBF8A; }
 .az-editor .token.number { color: #ECECEC; }
 .az-editor .token.comment { color: #676767; font-style: italic; }
 .az-editor .token.doc-comment { color: #6B9F77; font-style: italic; }
 .az-editor .token.doc-tag { color: #5BA3D0; font-weight: bold; }
 .az-editor .token.doc-param-name { color: #D9D9D9; }
-.az-editor .token.annotation, .az-editor .token.decorator { color: #E6C96B; }
+.az-editor .token.annotation, .az-editor .token.decorator { color: var(--color-pastel-orange); }
 .az-editor .token.variable { color: #D9DADA; }
 .az-editor .token.preprocessor { color: #B06FA8; font-style: italic; }
 .az-editor .token.macro { color: #B06FA8; font-weight: bold; }

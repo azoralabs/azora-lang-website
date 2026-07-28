@@ -8,14 +8,28 @@ const tokenCSS = `
 .az-showcase .token.keyword { color: #D16B8E; font-weight: bold; }
 .az-showcase .token.boolean, .az-showcase .token.null-literal { color: #D16B8E; font-weight: bold; }
 .az-showcase .token.class-name, .az-showcase .token.type-keyword, .az-showcase .token.type-name { color: #5FA89F; }
+.az-showcase .token.spec-type { color: #5FA89F; font-style: italic; }
+.az-showcase .token.zone { color: #D9DADA; font-style: italic; }
+.az-showcase .token.module-path { color: #D9DADA; font-style: italic; }
+.az-showcase .token.generic { color: #5BA3D0; font-weight: bold; }
 .az-showcase .token.builtin, .az-showcase .token.builtin-fn, .az-showcase .token.function { color: #E6C96B; }
-.az-showcase .token.parameter { color: #B8B8B8; text-decoration: underline; text-underline-offset: 3px; }
+.az-showcase .token.spec-function { color: #E6C96B; font-style: italic; }
+.az-showcase .token.override-function { color: #E6C96B; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-showcase .token.parameter { color: #D9DADA; text-decoration: underline; text-underline-offset: 3px; }
+.az-showcase .token.property { color: #D9DADA; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-showcase .token.spec-property { color: #D9DADA; font-style: italic; }
+.az-showcase .token.override-property { color: #D9DADA; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-showcase .token.unused { color: #B8B8B8; }
+.az-showcase .token.unused-parameter { color: #B8B8B8; text-decoration: underline; text-underline-offset: 3px; }
+.az-showcase .token.unused-property { color: #B8B8B8; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+.az-showcase .token.unused-spec-function, .az-showcase .token.unused-spec-property { color: #B8B8B8; font-style: italic; }
+.az-showcase .token.unused-override-function, .az-showcase .token.unused-override-property { color: #B8B8B8; font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
 .az-showcase .token.string { color: #7DBF8A; }
 .az-showcase .token.number { color: #ECECEC; }
 .az-showcase .token.comment { color: #676767; font-style: italic; }
 .az-showcase .token.doc-comment { color: #6B9F77; font-style: italic; }
 .az-showcase .token.doc-tag { color: #5BA3D0; font-weight: bold; }
-.az-showcase .token.annotation, .az-showcase .token.decorator { color: #E6C96B; }
+.az-showcase .token.annotation, .az-showcase .token.decorator { color: var(--color-pastel-orange); }
 .az-showcase .token.variable { color: #D9DADA; }
 .az-showcase .token.preprocessor { color: #B06FA8; font-style: italic; }
 .az-showcase .token.macro { color: #B06FA8; font-weight: bold; }
