@@ -24,16 +24,15 @@ requesting the certificate.
 
 ## GitHub Actions secrets
 
-Expose these organization or repository secrets to all four repositories:
+Expose this organization or repository secret to all four repositories:
 
-- `VPS_USER`: SSH user that owns the four document roots.
-- `VPS_SSH_KEY`: private SSH key for `VPS_USER`.
+- `AZORA_SSH_PRIVATE_KEY`: private SSH key for the dedicated `azora-deploy`
+  account.
 
-The workflows temporarily fall back to the existing `HOSTINGER_USER` and
-`HOSTINGER_SSH_KEY` names so credentials can be migrated without interrupting
-deployment. The old Hostinger port is intentionally ignored; the VPS uses
-the verified SSH port `22`. The public VPS address is kept in the workflow
-rather than stored as a secret.
+The workflow follows the proven `merea-website` direct-rsync deployment model,
+but it does not reuse Merea's root credential. It connects as the unprivileged
+`azora-deploy` user on the verified SSH port `22` and fails before deployment
+with a clear error when the Azora-specific key is missing.
 
 Each push to `main` builds with `npm ci` and synchronizes `dist/` to that
 site's document root. `rsync --delete` removes stale hashed assets without
