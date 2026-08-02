@@ -29,7 +29,7 @@ export default function Targets() {
         <div className="section-heading section-heading--split" data-reveal>
           <div>
             <span className="section-kicker">Compilation targets</span>
-            <h2>One language. Four ways to run.</h2>
+            <h2>One language. Three ways to run.</h2>
           </div>
           <p>Stay in the interpreter while you explore, then take the same source to native, browser, server, or edge runtimes.</p>
         </div>
