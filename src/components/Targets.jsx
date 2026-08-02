@@ -15,13 +15,6 @@ const targets = [
   },
   {
     index: '03',
-    name: 'JavaScript',
-    desc: 'Generate JavaScript for web browsers and Node.js. Build full-stack with one language.',
-    color: 'text-pastel-orange',
-    state: 'experimental'
-  },
-  {
-    index: '04',
     name: 'WebAssembly',
     desc: 'WASI-compatible WebAssembly for high-performance browser and edge runtime execution.',
     color: 'text-pastel-white',

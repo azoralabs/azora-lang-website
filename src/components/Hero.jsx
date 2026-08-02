@@ -145,7 +145,7 @@ export default function Hero({ engine }) {
             <span>Fast.</span> <span>Safe.</span> Expressive.
           </p>
           <p className="hero__copy">
-            An experimental modern systems language that redefines metaprogramming through real-time IR generation and a single source of truth for LLVM, JavaScript, WebAssembly, and direct interpretation.
+            An experimental modern systems language that redefines metaprogramming through real-time IR generation and a single source of truth for LLVM, WebAssembly, and direct interpretation.
           </p>
           <div className="hero__actions">
             <a className="button button--primary" href="https://code.azoralang.org" target="_blank" rel="noopener noreferrer">
