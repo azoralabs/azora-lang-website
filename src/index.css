@@ -747,7 +747,7 @@ svg {
 
 .targets__rail {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   overflow: hidden;
   background: rgba(8, 12, 15, 0.52);
 }
