@@ -1,7 +1,7 @@
 export const codeExamples = [
   {
     title: 'Hello World',
-    code: `import std.io
+    code: `use std.io
 
 func main() {
     std::println("Hello, world!")
@@ -9,7 +9,7 @@ func main() {
   },
   {
     title: 'Variables',
-    code: `import std.io
+    code: `use std.io
 
 func main() {
     // Mutable binding
@@ -29,7 +29,7 @@ func main() {
   },
   {
     title: 'Functions & Lambdas',
-    code: `import std.io
+    code: `use std.io
 
 // Named function with return type
 func add(a: Int, b: Int): Int {
@@ -39,8 +39,8 @@ func add(a: Int, b: Int): Int {
 // Single-expression function
 func square(x: Int): Int = x * x
 
-// Higher-order function
-func apply(value: Int, transform: Func(Int) -> Int): Int {
+// Higher-order function: a callable type is written as its signature
+func apply(value: Int, transform: (Int) -> Int): Int {
     return transform(value)
 }
 
@@ -55,8 +55,8 @@ func main() {
   },
   {
     title: 'Tuples',
-    code: `import std.io
-import std.container.tuple
+    code: `use std.io
+use std.container.tuple
 
 func divmod(a: Int, b: Int): (Int, Int) {
     return tup@(a / b, a % b)
@@ -81,7 +81,7 @@ func main() {
   },
   {
     title: 'Packs & Enums',
-    code: `import std.io
+    code: `use std.io
 
 pack Point {
     var x: Real
@@ -109,7 +109,7 @@ func main() {
   },
   {
     title: 'Slots',
-    code: `import std.io
+    code: `use std.io
 
 slot Shape {
     Circle(radius: Real)
@@ -119,9 +119,9 @@ slot Shape {
 
 func describe(shape: Shape): String {
     return when shape {
-        is .Circle -> "circle with r=\${shape.radius}"
-        is .Rectangle -> "rect \${shape.width}x\${shape.height}"
-        is .Point -> "point"
+        Shape.Circle(radius) -> "circle with r=\${radius}"
+        Shape.Rectangle(width, height) -> "rect \${width}x\${height}"
+        else -> "point"
     }
 }
 
@@ -129,13 +129,13 @@ func main() {
     fin c = Shape.Circle(5.0)
     fin r = Shape.Rectangle(3.0, 4.0)
 
-    println(describe(c))
-    println(describe(r))
+    std::println(describe(c))
+    std::println(describe(r))
 }`,
   },
   {
     title: 'Generics',
-    code: `import std.io
+    code: `use std.io
 
 pack Pair<A, B> {
     var first: A
@@ -156,43 +156,44 @@ func main() {
   },
   /*{
     title: 'Async / Await',
-    code: `task main() {
-    fin a = task { "Hello, Alice!" }
-    fin b = task { "Hello, Bob!" }
+    code: `use std.io
+
+async func main() {
+    // \`async { … }\` starts work; the handle is awaited for its result.
+    fin a = async { "Hello, Alice!" }
+    fin b = async { "Hello, Bob!" }
 
     // Await both results
-    println(await a)
-    println(await b)
+    std::println(await a)
+    std::println(await b)
 }`,
   },*/
   {
     title: 'Flows',
-    code: `import std.io
+    code: `use std.io
+use std.concurrency.generators
 
-flow range(n: Int): Int {
-    for i in 0..n {
-        yield i
+// A producer stays an ordinary \`func\`; its return type says it yields a stream.
+func range(n: Int): std::Sequence<Int> = std::sequence([s: std::SequenceScope<Int>!]{
+    for i in 0..<n {
+        std::yield(i)
     }
-}
+})
 
-flow evens(n: Int): Int {
-    for i in 0..n {
+func evens(n: Int): std::Sequence<Int> = std::sequence([s: std::SequenceScope<Int>!]{
+    for i in 0..<n {
         if i % 2 == 0 {
-            yield i
+            std::yield(i)
         }
     }
-}
+})
 
-task main() {
+func main() {
     var sum = 0
-    for x in range(5) {
-        sum = sum + x
-    }
-    std::println("Sum 0..5: \${sum}")
+    range(5).collect({ x -> sum = sum + x })
+    std::println("Sum 0..<5: \${sum}")
 
-    for e in evens(10) {
-        std::println("\${e}")
-    }
+    evens(10).collect({ e -> std::println("\${e}") })
 }`,
   },
   {
@@ -216,7 +217,7 @@ test "factorial of 1 is 1" {
   },
   {
     title: 'Error Handling',
-    code: `import std.io
+    code: `use std.io
 
 fail MathError {
     DivisionByZero
@@ -266,7 +267,7 @@ test "clamp above maximum" {
   },
   {
     title: 'Collections',
-    code: `import std.io
+    code: `use std.io
 
 func main() {
     fin numbers = vec@[1, 2, 3, 4, 5]
@@ -279,7 +280,9 @@ func main() {
   },
   /*{
     title: 'Metaprogramming',
-    code: `deco Range {
+    code: `use std.io
+
+deco Range {
     fin min: Int
     fin max: Int
 }
@@ -287,29 +290,27 @@ func main() {
 deco Serializable
 
 @Serializable
-@Range(min = 0, max = 100)
-fin health: Int = 50
-
-// Compile-time introspection using deepinline
-deepinline {
-    if hasDeco(health, Serializable) {
-        trace { "health is serializable" }
-    }
-
-    if hasDeco(health, Range) {
-        fin minVal = getDeco(health, Range, min)
-        fin maxVal = getDeco(health, Range, max)
-        trace { "health range: \${$minVal}..\${$maxVal}" }
-    }
+@Range(min: 0, max: 100)
+pack Health {
+    var value: Int = 50
 }
 
 func main() {
-    trace "Health: \${health}"
+    // Compile-time introspection: reflect over a declaration and ask about it.
+    inline if std::reflect<Health>.hasDeco<Serializable> {
+        std::println("Health is serializable")
+    }
+
+    inline if std::reflect<Health>.hasDeco<Range> {
+        inline fin minVal = std::reflect<Health>.decoMeta<Range>.min
+        inline fin maxVal = std::reflect<Health>.decoMeta<Range>.max
+        std::println("Health range: \${minVal}..\${maxVal}")
+    }
 }`,
   },*/
   {
     title: 'Pointers & Memory',
-    code: `import std.io
+    code: `use std.io
 
 pack Node {
     var value: Int
@@ -323,31 +324,28 @@ func main() {
     var c = alloc Node(value: 3, next: null)
 
     // Link nodes: a -> b -> c
-    (deref a).next = b
-    (deref b).next = c
+    a.*.next = b
+    b.*.next = c
 
     // Traverse the linked list
     var current: Node* = a
     while current != null {
-        std::println((deref current).value)
-        current = (deref current).next
+        std::println("\${current.*.value}")
+        current = current.*.next
     }
-
-    // Cleanup
-    drop c
-    drop b
-    drop a
 }`,
   },
   {
     title: 'Dependency Injection',
-    code: `// Singleton services with solo
+    code: `use std.io
+
+// Singleton services with solo
 solo Logger {
     var level: Int = 1
 
-    func log(msg: String) {
-        if level > 0 {
-            trace "[LOG] $msg"
+    func log[self: Self&](msg: String) {
+        if self.level > 0 {
+            std::println("[LOG] \${msg}")
         }
     }
 }
@@ -355,13 +353,13 @@ solo Logger {
 solo Database {
     var connected: Bool = false
 
-    func connect() {
-        connected = true
-        trace "Database connected"
+    func connect[self: Self!]() {
+        self.connected = true
+        std::println("Database connected")
     }
 
-    func query(sql: String): String {
-        if !connected { return "not connected" }
+    func query[self: Self&](sql: String): String {
+        if !self.connected { return "not connected" }
         return "result for: " + sql
     }
 }
@@ -373,20 +371,15 @@ wrap AppModule {
 }
 
 func main() {
-    // Start the DI container lifecycle
-    AppModule.initLifecycle()
-
     // Resolve singletons from the active wrap
-    fin logger = inject Logger
+    var logger = inject Logger
     fin db = inject Database
+    logger.level = 1
 
     logger.log("Starting app")
     db.connect()
     fin result = db.query("SELECT * FROM users")
     logger.log(result)
-
-    // End lifecycle, runs solo destructors
-    AppModule.endLifecycle()
 }`,
   },
   {

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  */
 
-module azora.language.server
+mod azora.language.server
 
 /**
  * Browser AZLS implementation compiled from Azora to WebAssembly.
@@ -15,7 +15,7 @@ module azora.language.server
  * versioned workspace corpus supplied by the browser.
  */
 
-func azlsVersion(): String { return "0.0.4" }
+func azlsVersion(): String { return "0.0.5" }
 
 /** Allocates an ABI-compatible UTF-8 input buffer for the browser host. */
 func azlsReserve(size: Int): String { return " " * size }
@@ -75,67 +75,57 @@ func isKeywordRange(source: String, start: Int, end: Int): Bool {
         rangeIs(source, start, end, "return") || rangeIs(source, start, end, "if") ||
         rangeIs(source, start, end, "else") || rangeIs(source, start, end, "inline") ||
         rangeIs(source, start, end, "deepinline") || rangeIs(source, start, end, "noinline") ||
-        rangeIs(source, start, end, "zone") || rangeIs(source, start, end, "friend") ||
-        rangeIs(source, start, end, "test") || rangeIs(source, start, end, "assert") ||
-        rangeIs(source, start, end, "trace") || rangeIs(source, start, end, "panic") ||
-        rangeIs(source, start, end, "meta") || rangeIs(source, start, end, "for") ||
-        rangeIs(source, start, end, "while") || rangeIs(source, start, end, "loop") ||
-        rangeIs(source, start, end, "in") || rangeIs(source, start, end, "by") ||
-        rangeIs(source, start, end, "reverse") || rangeIs(source, start, end, "break") ||
-        rangeIs(source, start, end, "continue") || rangeIs(source, start, end, "pack") ||
-        rangeIs(source, start, end, "enum") || rangeIs(source, start, end, "when") ||
-        rangeIs(source, start, end, "throw") || rangeIs(source, start, end, "try") ||
-        rangeIs(source, start, end, "catch") || rangeIs(source, start, end, "rescue") ||
-        rangeIs(source, start, end, "impl") || rangeIs(source, start, end, "spec") ||
-        rangeIs(source, start, end, "defer") || rangeIs(source, start, end, "type") ||
-        rangeIs(source, start, end, "typealias") || rangeIs(source, start, end, "slot") ||
-        rangeIs(source, start, end, "use") || rangeIs(source, start, end, "import") ||
+        rangeIs(source, start, end, "zone") || rangeIs(source, start, end, "test") ||
+        rangeIs(source, start, end, "assert") || rangeIs(source, start, end, "trace") ||
+        rangeIs(source, start, end, "panic") || rangeIs(source, start, end, "meta") ||
+        rangeIs(source, start, end, "for") || rangeIs(source, start, end, "while") ||
+        rangeIs(source, start, end, "loop") || rangeIs(source, start, end, "in") ||
+        rangeIs(source, start, end, "by") || rangeIs(source, start, end, "reverse") ||
+        rangeIs(source, start, end, "break") || rangeIs(source, start, end, "continue") ||
+        rangeIs(source, start, end, "pack") || rangeIs(source, start, end, "enum") ||
+        rangeIs(source, start, end, "when") || rangeIs(source, start, end, "throw") ||
+        rangeIs(source, start, end, "try") || rangeIs(source, start, end, "catch") ||
+        rangeIs(source, start, end, "rescue") || rangeIs(source, start, end, "impl") ||
+        rangeIs(source, start, end, "spec") || rangeIs(source, start, end, "defer") ||
+        rangeIs(source, start, end, "type") || rangeIs(source, start, end, "typealias") ||
+        rangeIs(source, start, end, "slot") || rangeIs(source, start, end, "use") ||
         rangeIs(source, start, end, "as") || rangeIs(source, start, end, "guard") ||
         rangeIs(source, start, end, "is") || rangeIs(source, start, end, "infx") ||
         rangeIs(source, start, end, "oper") || rangeIs(source, start, end, "fail") ||
-        rangeIs(source, start, end, "alloc") || rangeIs(source, start, end, "drop") ||
-        rangeIs(source, start, end, "deref") || rangeIs(source, start, end, "unsafe") ||
-        rangeIs(source, start, end, "isolated") || rangeIs(source, start, end, "flow") ||
-        rangeIs(source, start, end, "yield") || rangeIs(source, start, end, "task") ||
-        rangeIs(source, start, end, "await") || rangeIs(source, start, end, "launch") ||
-        rangeIs(source, start, end, "bridge") || rangeIs(source, start, end, "solo") ||
-        rangeIs(source, start, end, "inject") || rangeIs(source, start, end, "wrap") ||
-        rangeIs(source, start, end, "mem") || rangeIs(source, start, end, "rem") ||
-        rangeIs(source, start, end, "ret") || rangeIs(source, start, end, "effect") ||
-        rangeIs(source, start, end, "with") ||
+        rangeIs(source, start, end, "alloc") || rangeIs(source, start, end, "unsafe") ||
+        rangeIs(source, start, end, "isolated") || rangeIs(source, start, end, "async") ||
+        rangeIs(source, start, end, "await") || rangeIs(source, start, end, "bridge") ||
+        rangeIs(source, start, end, "solo") || rangeIs(source, start, end, "inject") ||
+        rangeIs(source, start, end, "wrap") || rangeIs(source, start, end, "mem") ||
+        rangeIs(source, start, end, "rem") || rangeIs(source, start, end, "ret") ||
+        rangeIs(source, start, end, "effect") || rangeIs(source, start, end, "with") ||
         rangeIs(source, start, end, "prop") || rangeIs(source, start, end, "ctor") ||
-        rangeIs(source, start, end, "dtor") || rangeIs(source, start, end, "flip") ||
-        rangeIs(source, start, end, "flop") || rangeIs(source, start, end, "out") ||
+        rangeIs(source, start, end, "dtor") || rangeIs(source, start, end, "out") ||
         rangeIs(source, start, end, "expose") || rangeIs(source, start, end, "confine") ||
-        rangeIs(source, start, end, "protect") || rangeIs(source, start, end, "shield") ||
-        rangeIs(source, start, end, "protected") || rangeIs(source, start, end, "opaque") ||
-        rangeIs(source, start, end, "module") || rangeIs(source, start, end, "export") ||
-        rangeIs(source, start, end, "threadlocal") || rangeIs(source, start, end, "deco") ||
-        rangeIs(source, start, end, "bind") || rangeIs(source, start, end, "true") ||
-        rangeIs(source, start, end, "false") || rangeIs(source, start, end, "null")
+        rangeIs(source, start, end, "mod") || rangeIs(source, start, end, "threadlocal") ||
+        rangeIs(source, start, end, "deco") || rangeIs(source, start, end, "bind") ||
+        rangeIs(source, start, end, "true") || rangeIs(source, start, end, "false") ||
+        rangeIs(source, start, end, "null") || rangeIs(source, start, end, "purge")
 }
 
 func isDeclarationRange(source: String, start: Int, end: Int): Bool {
-    return rangeIs(source, start, end, "func") || rangeIs(source, start, end, "task") ||
-        rangeIs(source, start, end, "flow") || rangeIs(source, start, end, "pack") ||
-        rangeIs(source, start, end, "enum") || rangeIs(source, start, end, "spec") ||
-        rangeIs(source, start, end, "deco") || rangeIs(source, start, end, "node") ||
+    return rangeIs(source, start, end, "func") || rangeIs(source, start, end, "async") ||
+        rangeIs(source, start, end, "pack") || rangeIs(source, start, end, "enum") ||
+        rangeIs(source, start, end, "spec") || rangeIs(source, start, end, "deco") ||
         rangeIs(source, start, end, "solo") || rangeIs(source, start, end, "prop") ||
-        rangeIs(source, start, end, "hook") || rangeIs(source, start, end, "var") ||
-        rangeIs(source, start, end, "fin") || rangeIs(source, start, end, "let") ||
-        rangeIs(source, start, end, "fail") || rangeIs(source, start, end, "typealias")
+        rangeIs(source, start, end, "var") || rangeIs(source, start, end, "fin") ||
+        rangeIs(source, start, end, "let") || rangeIs(source, start, end, "fail") ||
+        rangeIs(source, start, end, "typealias")
 }
 
 func isFunctionDeclarationRange(source: String, start: Int, end: Int): Bool {
-    return rangeIs(source, start, end, "func") || rangeIs(source, start, end, "task") ||
-        rangeIs(source, start, end, "flow") || rangeIs(source, start, end, "hook")
+    return rangeIs(source, start, end, "func") || rangeIs(source, start, end, "async")
 }
 
 func declarationKind(source: String, start: Int, end: Int): String {
-    if rangeIs(source, start, end, "func") || rangeIs(source, start, end, "task") ||
-        rangeIs(source, start, end, "flow") || rangeIs(source, start, end, "hook") { return "function" }
-    if rangeIs(source, start, end, "pack") || rangeIs(source, start, end, "node") ||
-        rangeIs(source, start, end, "solo") || rangeIs(source, start, end, "typealias") { return "type" }
+    if rangeIs(source, start, end, "func") || rangeIs(source, start, end, "async") { return "function" }
+    if rangeIs(source, start, end, "pack") || rangeIs(source, start, end, "solo") ||
+        rangeIs(source, start, end, "typealias") { return "type" }
     if rangeIs(source, start, end, "enum") { return "enum" }
     if rangeIs(source, start, end, "spec") { return "interface" }
     if rangeIs(source, start, end, "deco") { return "annotation" }
@@ -741,7 +731,7 @@ func declarationIsSpecAt(
 }
 
 func moduleStart(source: String, documentStart: Int, documentEnd: Int): Int {
-    fin marker = "module"
+    fin marker = "mod"
     var index = documentStart
     while index < documentEnd {
         fin found = findFrom(source, index, documentEnd, marker)
@@ -775,7 +765,7 @@ func importStart(source: String, offset: Int): Int {
     while lineEnd < stringLength(source) && charAt(source, lineEnd) != '\n' { lineEnd += 1 }
     var index = lineStart
     while index < lineEnd && isSpace(charAt(source, index)) { index += 1 }
-    if rangeStarts(source, index, lineEnd, "import") { index += 6 }
+    if rangeStarts(source, index, lineEnd, "use") { index += 3 }
     else if rangeStarts(source, index, lineEnd, "use") { index += 3 }
     else { return -1 }
     while index < lineEnd && isSpace(charAt(source, index)) { index += 1 }
@@ -888,8 +878,8 @@ func useIsInsideZone(
 }
 
 /**
- * Named zones require `Zone::Type`. A declaration in `use zone` or
- * `use friend zone` intentionally remains bare-accessible. Code already
+ * Named zones require `Zone::Type`. A declaration in a `use zone`
+ * intentionally remains bare-accessible. Code already
  * inside the same named zone also has direct access to that zone's members.
  */
 func declarationZoneAllows(
@@ -924,9 +914,6 @@ func declarationZoneAllows(
             if rangeIs(declarationSource, start, index, "zone") {
                 fin isUsed = previousStart >= 0 &&
                     rangeIs(declarationSource, previousStart, previousEnd, "use")
-                fin isUsedFriend = previousStart >= 0 && beforePreviousStart >= 0 &&
-                    rangeIs(declarationSource, previousStart, previousEnd, "friend") &&
-                    rangeIs(declarationSource, beforePreviousStart, beforePreviousEnd, "use")
                 var pathStart = index
                 while pathStart < documentEnd && isSpace(charAt(declarationSource, pathStart)) {
                     pathStart += 1
@@ -941,7 +928,7 @@ func declarationZoneAllows(
                 if pathEnd > pathStart && open < documentEnd &&
                     charAt(declarationSource, open) == '{' {
                     fin close = matchingBraceEnd(declarationSource, documentEnd, open)
-                    if open < declaration && declaration < close && !isUsed && !isUsedFriend {
+                    if open < declaration && declaration < close && !isUsed {
                         required = true
                         matches = qualifierMatches(
                             source,
@@ -971,7 +958,7 @@ func declarationZoneAllows(
 
 func moduleIsExported(source: String, documentStart: Int, moduleNameStart: Int): Bool {
     fin start = lineStartAt(source, documentStart, moduleNameStart)
-    fin found = findFrom(source, start, moduleNameStart, "export")
+    fin found = findFrom(source, start, moduleNameStart, "expose")
     if found < 0 { return false }
     fin end = found + 6
     fin beforeOk = found == start || !isIdentifierPart(charAt(source, found - 1))
@@ -999,7 +986,7 @@ func sourceImportsModule(
             while index < stringLength(source) && isIdentifierPart(charAt(source, index)) {
                 index += 1
             }
-            if rangeIs(source, start, index, "import") || rangeIs(source, start, index, "use") {
+            if rangeIs(source, start, index, "use") {
                 while index < stringLength(source) && isSpace(charAt(source, index)) { index += 1 }
                 fin pathStart = index
                 while index < stringLength(source) {

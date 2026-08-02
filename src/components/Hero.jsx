@@ -12,7 +12,7 @@ import std.container.tuple
 
 pack Language {
     var name: String
-    fin version = "v0.0.4"
+    fin version = "v0.0.5"
 }
 
 impl Language {
@@ -93,7 +93,7 @@ export default function Hero({ engine }) {
   const [output, setOutput] = useState(null)
   const [runningMode, setRunningMode] = useState(null)
   const [compilerDiagnostics, setCompilerDiagnostics] = useState([])
-  const azls = useAzoraLanguageServer('0.0.4')
+  const azls = useAzoraLanguageServer('0.0.5')
 
   const { hasMain, hasTests } = useMemo(() => detectCapabilities(code), [code])
   const running = runningMode !== null
@@ -221,7 +221,7 @@ export default function Hero({ engine }) {
           <p className="runtime__note" data-reveal>
             Experimental release. Azora is evolving quickly and is not yet recommended for production systems.
             <br />
-            <strong>Roadmap:</strong> Azora <strong>0.1-stable</strong> is planned for release in <strong>November 2026</strong>.
+            <strong>Roadmap:</strong> Azora <strong>0.1-stable</strong> is planned for release in <strong>May 2027</strong>.
           </p>
         </div>
       </section>
