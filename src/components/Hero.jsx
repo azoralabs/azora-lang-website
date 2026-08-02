@@ -5,10 +5,10 @@ import ExternalLinkIcon from './ExternalLinkIcon.jsx'
 
 const MiniCodeEditor = lazy(() => import('./MiniCodeEditor.jsx'))
 
-const defaultCode = `module playground
+const defaultCode = `mod playground
 
-import std.io
-import std.container.tuple
+use std.io
+use std.container.tuple
 
 pack Language {
     var name: String
@@ -16,7 +16,7 @@ pack Language {
 }
 
 impl Language {
-    func greet(): String { self& ->
+    func greet[self: Self&](): String {
         return "Hello from \${self.name}!"
     }
 }
