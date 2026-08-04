@@ -1,3 +1,5 @@
+import { Sparkles } from 'lucide-react'
+
 // SVG icon components for each feature
 const icons = {
   syntax: (
@@ -174,7 +176,7 @@ export default function Features() {
     <section id="features" className="features section-band section-band--deep">
       <div className="page-shell">
         <div className="section-heading" data-reveal>
-          <span className="section-kicker">The language</span>
+          <span className="section-kicker"><Sparkles aria-hidden="true" />The language</span>
           <h2>A wide surface. One coherent model.</h2>
           <p>Modern ergonomics on top, explicit systems control underneath, and no split between the two.</p>
         </div>

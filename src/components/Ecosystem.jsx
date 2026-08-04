@@ -1,4 +1,4 @@
-import ExternalLinkIcon from './ExternalLinkIcon.jsx'
+import { ArrowUpRight, BookOpen, Code2, Sparkles } from 'lucide-react'
 
 const links = [
   {
@@ -7,6 +7,7 @@ const links = [
     href: 'https://code.azoralang.org',
     cta: 'Open Playground',
     label: 'Build',
+    icon: Code2,
   },
   {
     title: 'The Azora Book',
@@ -14,6 +15,7 @@ const links = [
     href: 'https://book.azoralang.org',
     cta: 'Start Reading',
     label: 'Learn',
+    icon: BookOpen,
   },
 ]
 
@@ -22,7 +24,7 @@ export default function Ecosystem() {
     <section id="ecosystem" className="ecosystem section-band section-band--deep">
       <div className="page-shell">
         <div className="section-heading" data-reveal>
-          <span className="section-kicker">Ecosystem</span>
+          <span className="section-kicker"><Sparkles aria-hidden="true" />Ecosystem</span>
           <h2>Go from curious to fluent.</h2>
           <p>Run the language in your browser, then go deeper with the complete Azora guide.</p>
         </div>
@@ -37,10 +39,13 @@ export default function Ecosystem() {
               data-reveal="up"
               style={{ '--reveal-order': index }}
             >
-              <span className="ecosystem-card__label">{link.label}</span>
+              <div className="ecosystem-card__topline">
+                <span className="ecosystem-card__icon"><link.icon aria-hidden="true" /></span>
+                <span className="ecosystem-card__label">{link.label}</span>
+              </div>
               <h3>{link.title}</h3>
               <p>{link.desc}</p>
-              <span className="ecosystem-card__cta">{link.cta} <ExternalLinkIcon /></span>
+              <span className="ecosystem-card__cta">{link.cta} <ArrowUpRight aria-hidden="true" /></span>
             </a>
           ))}
         </div>

@@ -1,18 +1,21 @@
+import { BookOpen, MessageCircle } from 'lucide-react'
+import { FaGithub } from 'react-icons/fa'
+
 export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="page-shell site-footer__inner">
         <div className="site-footer__brand">
-          <img src="/assets/azora_logo.svg" alt="" />
+          <img src="/assets/azora-moon-avatar.png" alt="" />
           <div>
-            <strong>Azora</strong>
-            <span>Programming language</span>
+            <strong>Azora Lang</strong>
+            <span>Power with a little magic.</span>
           </div>
         </div>
         <div className="site-footer__links">
-          <a href="https://docs.azoralang.org" target="_blank" rel="noopener noreferrer">Documentation</a>
-          <a href="https://azoralabs.org/community" target="_blank" rel="noopener noreferrer">Community</a>
-          <a href="https://github.com/azora-labs" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://book.azoralang.org" target="_blank" rel="noopener noreferrer"><BookOpen aria-hidden="true" />Book</a>
+          <a href="https://azora.dev" target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" />Community</a>
+          <a href="https://github.com/azoralabs/azora-lang" target="_blank" rel="noopener noreferrer"><FaGithub aria-hidden="true" />GitHub</a>
         </div>
         <p>&copy; {new Date().getFullYear()} Azora Labs.</p>
       </div>

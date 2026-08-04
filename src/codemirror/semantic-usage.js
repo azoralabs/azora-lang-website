@@ -1,7 +1,7 @@
 const CALLABLE_PATTERN =
-  /\b(?:func|task|flow|infx)\s*(?:<[^>{}\n]*>\s*)?(?:[A-Za-z_]\w*\.)?([A-Za-z_]\w*)\s*(?:<[^>{}\n]*>\s*)?\(([^)]*)\)/g
+  /\b(?:(?:async\s+)?func|infx)\s*(?:<[^>{}\n]*>\s*)?(?:[A-Za-z_]\w*\.)?([A-Za-z_]\w*)\s*(?:<[^>{}\n]*>\s*)?(?:\[([^\]\n]*)])?\s*\(([^)]*)\)/g
 const GENERIC_HEADER_START =
-  /\b(?:(?:func|task|flow|infx|pack|spec|deco|node|solo)\s*(?:[A-Za-z_]\w*\s*)?|(?:impl|prop)\s*)</g
+  /\b(?:(?:(?:async\s+)?func|infx|pack|spec|annot|enum|variant|solo)\s*(?:[A-Za-z_]\w*\s*)?|(?:impl|prop)\s*)</g
 
 function codeOnly(source) {
   const chars = [...source]
@@ -149,13 +149,18 @@ function collectDeclarations(source) {
   for (const match of masked.matchAll(CALLABLE_PATTERN)) {
     const nameOffset = match[0].indexOf(match[1])
     const nameStart = match.index + nameOffset
-    const paramsOffset = match[0].lastIndexOf(match[2])
-    const paramsStart = match.index + paramsOffset
+    const receiver = match[2] || ''
+    const receiverMarker = receiver ? match[0].indexOf(`[${receiver}`) + 1 : -1
+    const params = match[3] || ''
+    const openParen = match[0].lastIndexOf(`(${params}`)
+    const paramsStart = match.index + openParen + 1
     callables.push({
       name: match[1],
       nameStart,
       nameEnd: nameStart + match[1].length,
-      params: match[2],
+      receiver,
+      receiverStart: receiverMarker >= 0 ? match.index + receiverMarker : -1,
+      params,
       paramsStart,
       start: match.index,
       end: source.length,
@@ -169,6 +174,21 @@ function collectDeclarations(source) {
 
   const parameters = []
   for (const callable of callables) {
+    const receiver = callable.receiver.match(/(?:^|,)\s*([A-Za-z_]\w*)\s*:/)
+    if (receiver) {
+      const relative = callable.receiver.indexOf(receiver[1])
+      const start = callable.receiverStart + relative
+      const declaration = {
+        name: receiver[1],
+        start,
+        end: start + receiver[1].length,
+        scopeStart: callable.start,
+        scopeEnd: callable.end,
+      }
+      parameters.push(declaration)
+      declarationRanges.add(`${declaration.start}:${declaration.end}`)
+    }
+
     const parameterPattern = /(?:\.\.\.)?([A-Za-z_]\w*)\s*:/g
     for (const match of callable.params.matchAll(parameterPattern)) {
       const relative = match.index + match[0].indexOf(match[1])
@@ -184,21 +204,6 @@ function collectDeclarations(source) {
       declarationRanges.add(`${declaration.start}:${declaration.end}`)
     }
 
-    const receiverSource = masked.slice(callable.paramsStart + callable.params.length, callable.end)
-    const receiverPattern = /\b(self|it)\s*&?\s*->/g
-    for (const match of receiverSource.matchAll(receiverPattern)) {
-      const start = callable.paramsStart + callable.params.length + match.index
-      const declaration = {
-        name: match[1],
-        start,
-        end: start + match[1].length,
-        scopeStart: callable.start,
-        scopeEnd: callable.end,
-      }
-      parameters.push(declaration)
-      declarationRanges.add(`${declaration.start}:${declaration.end}`)
-      break
-    }
   }
 
   const variables = []

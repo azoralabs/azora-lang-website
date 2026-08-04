@@ -16,6 +16,7 @@ export default function MiniCodeEditor({
   onRunTests,
   languageServer,
   diagnostics,
+  filePath = 'main.az',
 }) {
   const containerRef = useRef(null)
   const viewRef = useRef(null)
@@ -93,5 +94,5 @@ export default function MiniCodeEditor({
     forceLinting(view)
   }, [diagnostics])
 
-  return <div ref={containerRef} className="runtime__code-editor" aria-label="Azora source editor" />
+  return <div ref={containerRef} className="runtime__code-editor" aria-label={`Azora source editor: ${filePath}`} />
 }

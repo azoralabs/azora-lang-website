@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "sync:language": "node scripts/sync-azora-language.mjs 0.0.5",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -16,9 +17,11 @@
     "@codemirror/search": "^6.5.0",
     "@codemirror/state": "^6.5.0",
     "@codemirror/view": "^6.36.0",
+    "lucide-react": "^1.28.0",
     "prismjs": "^1.30.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.7.0",
     "react-router-dom": "^7.13.2",
     "react-simple-code-editor": "^0.14.1",
     "react-syntax-highlighter": "^15.6.1"
