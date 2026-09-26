@@ -1,11 +1,24 @@
+/*
+ * Azora top bar — shared by every site that renders the .site-nav markup.
+ *
+ * SOURCE OF TRUTH: azora-design/site-nav.css
+ * Do not edit the copies inside each site; run azora-design/sync.mjs instead.
+ *
+ * A single translucent bar over the page atmosphere: hairline border, blur,
+ * the real hexagon mark, and links pushed to the right. Deliberately quiet —
+ * the mystical part of the design is the backdrop, not the chrome.
+ */
+
 .site-nav {
   position: fixed;
   z-index: 50;
   top: 0;
   right: 0;
   left: 0;
-  padding: 16px 36px 0;
-  background: transparent;
+  border-bottom: 1px solid var(--az-line);
+  background: color-mix(in srgb, var(--az-95) 74%, transparent);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
 }
 
 .site-nav a {
@@ -16,16 +29,10 @@
 .site-nav__inner {
   display: flex;
   align-items: center;
-  width: min(100%, 90rem);
-  height: 68px;
+  width: min(100%, var(--az-shell));
+  height: 64px;
   margin: 0 auto;
-  padding: 0 18px 0 12px;
-  border: 1px solid rgba(229, 233, 255, 0.44);
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(34, 68, 126, 0.72), rgba(12, 37, 82, 0.7));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 18px 44px rgba(1, 7, 31, 0.34), 0 0 28px rgba(142, 169, 255, 0.08);
-  backdrop-filter: blur(28px) saturate(155%);
-  -webkit-backdrop-filter: blur(28px) saturate(155%);
+  padding: 0 var(--az-gutter);
   gap: 0;
 }
 
@@ -33,36 +40,29 @@
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
-  gap: 12px;
-  color: #f5f7f8;
-  font-size: 1.03rem;
-  font-weight: 600;
+  gap: 10px;
+  color: var(--az-text);
+  font-size: 0.95rem;
+  font-weight: 700;
   white-space: nowrap;
 }
 
+/* The real Azora mark: a hexagon, never cropped to a circle. */
 .site-nav__brand img {
-  width: 47px;
-  height: 47px;
-  border: 1px solid rgba(255, 218, 238, 0.72);
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 0 20px rgba(237, 153, 195, 0.3);
-}
-
-.site-nav__brand-spark {
-  width: 16px;
-  height: 16px;
-  color: #ef9bc1;
-  fill: rgba(239, 155, 193, 0.38);
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  object-fit: contain;
 }
 
 .site-nav__meta {
   display: inline-flex;
   align-items: center;
-  margin-right: auto;
-  margin-left: 14px;
+  margin-left: 16px;
   gap: 10px;
-  color: #cbd2d7;
+  color: var(--az-muted);
   font-size: 0.72rem;
   font-weight: 600;
   white-space: nowrap;
@@ -71,35 +71,58 @@
 .site-nav .version-tag {
   display: inline-flex;
   align-items: center;
-  min-height: 26px;
-  padding: 0 10px;
-  border: 1px solid rgba(219, 230, 255, 0.28);
-  border-radius: 13px;
-  color: #d8dde0;
-  background: rgba(147, 178, 236, 0.12);
-  font-size: 0.65rem;
+  min-height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--az-line);
+  border-radius: var(--az-radius-sm);
+  color: var(--az-body);
+  background: var(--az-surface);
+  font-family: var(--az-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.02em;
 }
 
+/*
+ * The links group right-aligns itself. It must not depend on .site-nav__meta
+ * carrying `margin-right: auto`, because several sites render no version tag
+ * at all — that is what made the brand and the first link collide.
+ */
 .site-nav__links {
   display: flex;
   align-items: center;
-  gap: 25px;
-  color: #eef2fb;
-  font-size: 0.82rem;
+  margin-left: auto;
+  gap: 22px;
+  color: var(--az-body);
+  font-size: 0.81rem;
 }
 
+/*
+ * Links are icon + label on one line. Without the explicit inline-flex the
+ * icon becomes its own line box and the label drops underneath it.
+ */
 .site-nav__links > a,
-.site-nav__ecosystem-trigger {
+.site-nav__ecosystem-trigger,
+.site-nav__mobile > a {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  line-height: 1;
 }
 
-.site-nav__links svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 1.8;
+.site-nav__links svg,
+.site-nav__ecosystem-trigger svg,
+.site-nav__mobile > a svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  opacity: 0.8;
 }
+
+.site-nav__links > a:hover svg,
+.site-nav__ecosystem-trigger:hover svg { opacity: 1; }
+
+.site-nav__donate svg,
+.site-nav__mobile-donate svg { opacity: 1; }
 
 .site-nav__links > a:not(.site-nav__donate),
 .site-nav__ecosystem-trigger {
@@ -109,7 +132,7 @@
 .site-nav__links > a:not(.site-nav__donate):hover,
 .site-nav__ecosystem-trigger:hover,
 .site-nav__ecosystem-trigger.is-open {
-  color: #fff;
+  color: var(--az-text);
 }
 
 .site-nav__ecosystem {
@@ -121,7 +144,7 @@
   align-items: center;
   padding: 8px 16px 8px 0;
   border: 0;
-  color: #b7bfc6;
+  color: var(--az-body);
   background: transparent;
   cursor: pointer;
   font: inherit;
@@ -154,10 +177,10 @@
   display: grid;
   width: 292px;
   padding: 7px;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 8px;
-  background: rgba(6, 17, 43, 0.94);
-  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--az-line);
+  border-radius: var(--az-radius);
+  background: color-mix(in srgb, var(--az-95) 92%, transparent);
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(32px) saturate(155%);
   -webkit-backdrop-filter: blur(32px) saturate(155%);
 }
@@ -166,22 +189,22 @@
   display: flex;
   flex-direction: column;
   padding: 10px 11px;
-  border-radius: 6px;
+  border-radius: var(--az-radius-sm);
 }
 
 .site-nav__dropdown a:hover {
-  background: rgba(255, 255, 255, 0.065);
+  background: var(--az-surface);
 }
 
 .site-nav__dropdown strong {
-  color: #f1f4f5;
+  color: var(--az-text);
   font-size: 0.78rem;
   font-weight: 650;
 }
 
 .site-nav__dropdown span {
   margin-top: 2px;
-  color: #858f96;
+  color: var(--az-muted);
   font-size: 0.68rem;
   line-height: 1.35;
 }
@@ -191,21 +214,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 43px;
-  padding: 0 18px;
-  border: 1px solid rgba(255, 233, 245, 0.76);
-  border-radius: 11px;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--az-radius-sm);
   color: #fff !important;
-  background: linear-gradient(180deg, #dc8bb1, #ad59a6);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.38), 0 7px 22px rgba(223, 131, 173, 0.28), 0 0 18px rgba(216, 119, 181, 0.18);
-  font-weight: 680;
+  background: var(--az-primary);
+  font-weight: 650;
   white-space: nowrap;
   transition: background 180ms ease, transform 180ms ease;
 }
 
 .site-nav__donate:hover,
 .site-nav__mobile-donate:hover {
-  background: #ec9abd;
+  background: var(--az-primary-deep);
 }
 
 .site-nav__donate:active,
@@ -225,7 +247,7 @@
   height: 40px;
   padding: 0;
   border: 0;
-  color: #e7ebed;
+  color: var(--az-body);
   background: transparent;
   cursor: pointer;
 }
@@ -236,76 +258,53 @@
 }
 
 @media (max-width: 1040px) {
-  .site-nav__meta {
-    margin-left: 14px;
-    gap: 8px;
-    font-size: 0.68rem;
-  }
-
-  .site-nav__links {
-    gap: 16px;
-  }
+  .site-nav__meta { margin-left: 14px; gap: 8px; font-size: 0.68rem; }
+  .site-nav__links { gap: 16px; }
 }
 
 @media (max-width: 900px) {
-  .site-nav {
-    padding: 12px 16px 0;
-  }
-
-  .site-nav__inner {
-    height: 58px;
-    padding: 0 20px;
-  }
-
-  .site-nav__links {
-    display: none;
-  }
-
-  .site-nav__toggle {
-    display: inline-flex;
-    margin-left: auto;
-  }
+  .site-nav__inner { height: 60px; }
+  .site-nav__links { display: none; }
+  .site-nav__toggle { display: inline-flex; margin-left: auto; }
 
   .site-nav .site-nav__mobile {
     position: absolute;
-    top: 80px;
+    top: 68px;
     right: 16px;
     display: flex;
     width: min(310px, calc(100vw - 32px));
-    max-height: calc(100vh - 88px);
+    max-height: calc(100vh - 84px);
     overflow-y: auto;
     flex-direction: column;
     padding: 9px;
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    border-radius: 18px;
-    background: rgba(6, 17, 43, 0.94);
-    box-shadow: 0 22px 58px rgba(0, 0, 0, 0.42);
+    border: 1px solid var(--az-line);
+    border-radius: var(--az-radius);
+    background: color-mix(in srgb, var(--az-95) 92%, transparent);
+    box-shadow: 0 22px 58px rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(34px) saturate(160%);
     -webkit-backdrop-filter: blur(34px) saturate(160%);
   }
 
   .site-nav__mobile > a:not(.site-nav__mobile-donate) {
-    display: flex;
-    align-items: center;
-    gap: 9px;
     padding: 10px 11px;
-    border-radius: 5px;
-    color: #c5cbd0;
+    border-radius: var(--az-radius-sm);
+    color: var(--az-body);
     font-size: 0.8rem;
   }
 
   .site-nav__mobile > a:not(.site-nav__mobile-donate):hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
+    color: var(--az-text);
+    background: var(--az-surface);
   }
 
   .site-nav__mobile-label {
     margin: 7px 7px 2px;
     padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.09);
-    color: #727d84;
+    border-top: 1px solid var(--az-line);
+    color: var(--az-muted);
     font-size: 0.62rem;
-    font-weight: 750;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
@@ -313,12 +312,6 @@
     width: 100%;
     min-height: 40px;
     margin-top: 8px;
-    background: #d14eea;
     font-size: 0.82rem;
-  }
-
-  .site-nav__mobile svg {
-    width: 17px;
-    height: 17px;
   }
 }

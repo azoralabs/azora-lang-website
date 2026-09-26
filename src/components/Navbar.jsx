@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BookOpen, Code2, FileText, Heart, Menu, Orbit, Sparkles, X } from 'lucide-react'
+import { BookOpen, Code2, FileText, Heart, Menu, Orbit, X } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
 
 const productLinks = [
@@ -45,13 +45,12 @@ export default function Navbar() {
     <nav className="site-nav">
       <div className="page-shell site-nav__inner">
         <Link to="/" className="site-nav__brand" aria-label="Azora language home">
-          <img src="/assets/azora-moon-avatar.png" alt="" />
+          <img src="/assets/azora_logo.svg" alt="" />
           <span>Azora Lang</span>
-          <Sparkles className="site-nav__brand-spark" aria-hidden="true" />
         </Link>
 
         <div className="site-nav__meta" aria-label="Azora release">
-          <span className="version-tag">v0.0.5</span>
+          <span className="version-tag">0.1-dev</span>
         </div>
 
         <div className="site-nav__links">

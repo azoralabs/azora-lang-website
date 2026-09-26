@@ -17,20 +17,20 @@ pack Language {
 }
 
 impl Language {
-    func greeting[self: Self&](): String {
+    func &.greeting(): String {
         return "Hello from \${self.name} \${self.version}!"
     }
 }
 
 func main() {
-    fin language = Language("Azora", "v0.0.5")
-    std::println(language.greeting())
+    fin language = Language("Azora", "0.1-dev")
+    println(language.greeting())
 }`,
   'language_test.az': `module playground.tests
 
 test "language identity" {
     fin name = "Azora"
-    assert name == "Azora" { "language name must be stable" }
+    assert name == "Azora" panic "language name must be stable"
 }`,
 }
 
@@ -107,7 +107,7 @@ export default function Hero({ engine }) {
   const [output, setOutput] = useState(null)
   const [runningMode, setRunningMode] = useState(null)
   const [compilerDiagnostics, setCompilerDiagnostics] = useState([])
-  const azls = useAzoraLanguageServer('0.0.5')
+  const azls = useAzoraLanguageServer('0.1-dev')
 
   const code = files[activeFile] || ''
   const { hasMain, hasTests } = useMemo(() => detectCapabilities(code), [code])
@@ -279,7 +279,7 @@ export default function Hero({ engine }) {
               </div>
             </div>
             <div className="workspace__statusbar">
-              <span>{engine.error ? 'Engine unavailable' : 'Azora 0.0.5'}</span><span>{azls.loading ? 'AZLS loading' : azls.error ? 'AZLS unavailable' : 'AZLS ready'}</span><span>Spaces: 4</span>
+              <span>{engine.error ? 'Engine unavailable' : 'Azora 0.1-dev'}</span><span>{azls.loading ? 'AZLS loading' : azls.error ? 'AZLS unavailable' : 'AZLS ready'}</span><span>Spaces: 4</span>
             </div>
           </div>
           <p className="runtime__note" data-reveal>

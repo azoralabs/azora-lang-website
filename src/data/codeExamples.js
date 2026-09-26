@@ -4,7 +4,7 @@ export const codeExamples = [
     code: `use std.io
 
 func main() {
-    std::println("Hello, world!")
+    println("Hello, world!")
 }`,
   },
   {
@@ -23,7 +23,7 @@ func main() {
     fin items = vec@[1, 2, 3, 4, 5]
     count = items.size
 
-    std::println(greeting)
+    println(greeting)
     trace { "\${count}" }
 }`,
   },
@@ -45,12 +45,12 @@ func apply(value: Int, transform: (Int) -> Int): Int {
 }
 
 func main() {
-    std::println("\${add(3, 4)}")
-    std::println("\${square(5)}")
+    println("\${add(3, 4)}")
+    println("\${square(5)}")
 
     // Lambda
     fin double = { x: Int -> x * 2 }
-    std::println("\${apply(5, double)}")
+    println("\${apply(5, double)}")
 }`,
   },
   {
@@ -65,18 +65,18 @@ func divmod(a: Int, b: Int): (Int, Int) {
 func main() {
     // Tuple literal
     fin pair = tup@(42, "hello")
-    std::println("\${pair.0}")
-    std::println(pair.1)
+    println("\${pair.0}")
+    println(pair.1)
 
     // Tuple as return value
     fin result = divmod(17, 5)
-    std::println("quotient: \${result.0}")
-    std::println("remainder: \${result.1}")
+    println("quotient: \${result.0}")
+    println("remainder: \${result.1}")
 
     // Nested tuple
     fin nested = tup@(1, tup@(2, 3), "end")
     fin inner = nested.1
-    std::println("\${inner.0}")
+    println("\${inner.0}")
 }`,
   },
   {
@@ -101,10 +101,10 @@ func main() {
 
     fin dx = p.x - origin.x
     fin dy = p.y - origin.y
-    std::println("Distance squared: \${dx * dx + dy * dy}")
+    println("Distance squared: \${dx * dx + dy * dy}")
 
     fin dir = Direction.North
-    std::println("\${dir}")
+    println("\${dir}")
 }`,
   },
   {
@@ -129,8 +129,8 @@ func main() {
     fin c = Shape.Circle(5.0)
     fin r = Shape.Rectangle(3.0, 4.0)
 
-    std::println(describe(c))
-    std::println(describe(r))
+    println(describe(c))
+    println(describe(r))
 }`,
   },
   {
@@ -148,10 +148,10 @@ func swap<A, B>(pair: Pair<A, B>): Pair<B, A> {
 
 func main() {
     fin p = Pair<String, Int>("hello", 42)
-    std::println("\${p.first}, \${p.second}")
+    println("\${p.first}, \${p.second}")
 
     fin s = swap<String, Int>(p)
-    std::println("\${s.first}, \${s.second}")
+    println("\${s.first}, \${s.second}")
 }`,
   },
   /*{
@@ -164,8 +164,8 @@ async func main() {
     fin b = async { "Hello, Bob!" }
 
     // Await both results
-    std::println(await a)
-    std::println(await b)
+    println(await a)
+    println(await b)
 }`,
   },*/
   {
@@ -174,16 +174,16 @@ async func main() {
 use std.concurrency.generators
 
 // A producer stays an ordinary \`func\`; its return type says it yields a stream.
-func range(n: Int): std::Sequence<Int> = std::sequence([s: std::SequenceScope<Int>!]{
+func range(n: Int): Sequence<Int> = sequence([s: SequenceScope<Int>!]{
     for i in 0..<n {
-        std::yield(i)
+        yield(i)
     }
 })
 
-func evens(n: Int): std::Sequence<Int> = std::sequence([s: std::SequenceScope<Int>!]{
+func evens(n: Int): Sequence<Int> = sequence([s: SequenceScope<Int>!]{
     for i in 0..<n {
         if i % 2 == 0 {
-            std::yield(i)
+            yield(i)
         }
     }
 })
@@ -191,9 +191,9 @@ func evens(n: Int): std::Sequence<Int> = std::sequence([s: std::SequenceScope<In
 func main() {
     var sum = 0
     range(5).collect({ x -> sum = sum + x })
-    std::println("Sum 0..<5: \${sum}")
+    println("Sum 0..<5: \${sum}")
 
-    evens(10).collect({ e -> std::println("\${e}") })
+    evens(10).collect({ e -> println("\${e}") })
 }`,
   },
   {
@@ -232,11 +232,11 @@ func safeDivide(a: Int, b: Int): Int ?! MathError {
 func main() {
     // Catch with default value
     fin result = safeDivide(10, 0) catch -1
-    std::println("10 / 0 = \${result}")
+    println("10 / 0 = \${result}")
 
     // Successful division
     fin ok = safeDivide(10, 2) catch 0
-    std::println("10 / 2 = \${ok}")
+    println("10 / 2 = \${ok}")
 }`,
   },
   {
@@ -271,11 +271,11 @@ test "clamp above maximum" {
 
 func main() {
     fin numbers = vec@[1, 2, 3, 4, 5]
-    std::println("List size: \${numbers.size}")
+    println("List size: \${numbers.size}")
 
     // setOf deduplicates
     fin unique = set@[1, 2, 2, 3, 3, 3]
-    std::println("Set size: \${unique.size}")
+    println("Set size: \${unique.size}")
 }`,
   },
   /*{
@@ -297,14 +297,14 @@ pack Health {
 
 func main() {
     // Compile-time introspection: reflect over a declaration and ask about it.
-    inline if std::reflect<Health>.hasDeco<Serializable> {
-        std::println("Health is serializable")
+    inline if reflect<Health>.hasDeco<Serializable> {
+        println("Health is serializable")
     }
 
-    inline if std::reflect<Health>.hasDeco<Range> {
-        inline fin minVal = std::reflect<Health>.decoMeta<Range>.min
-        inline fin maxVal = std::reflect<Health>.decoMeta<Range>.max
-        std::println("Health range: \${minVal}..\${maxVal}")
+    inline if reflect<Health>.hasDeco<Range> {
+        inline fin minVal = reflect<Health>.decoMeta<Range>.min
+        inline fin maxVal = reflect<Health>.decoMeta<Range>.max
+        println("Health range: \${minVal}..\${maxVal}")
     }
 }`,
   },*/
@@ -330,7 +330,7 @@ func main() {
     // Traverse the linked list
     var current: Node* = a
     while current != null {
-        std::println("\${current.*.value}")
+        println("\${current.*.value}")
         current = current.*.next
     }
 }`,
@@ -345,7 +345,7 @@ solo Logger {
 
     func log[self: Self&](msg: String) {
         if self.level > 0 {
-            std::println("[LOG] \${msg}")
+            println("[LOG] \${msg}")
         }
     }
 }
@@ -355,7 +355,7 @@ solo Database {
 
     func connect[self: Self!]() {
         self.connected = true
-        std::println("Database connected")
+        println("Database connected")
     }
 
     func query[self: Self&](sql: String): String {

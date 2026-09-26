@@ -1,25 +1,26 @@
 @import "tailwindcss";
+@import "./azora-design.css";
 @import "./site-nav.css";
 
 @theme {
-  --color-az-10: #fbfbfb;
-  --color-az-20: #ececec;
-  --color-az-30: #d9d9d9;
-  --color-az-40: #b2b3b3;
-  --color-az-45: #a6a6a6;
-  --color-az-50: #9b9b9b;
+  --color-az-10: #FBFBFB;
+  --color-az-20: #ECECEC;
+  --color-az-30: #D9D9D9;
+  --color-az-40: #B2B3B3;
+  --color-az-45: #A6A6A6;
+  --color-az-50: #9B9B9B;
   --color-az-60: #676767;
-  --color-az-65: #4c4c4c;
+  --color-az-65: #4C4C4C;
   --color-az-70: #313131;
-  --color-az-75: #2c2c2c;
+  --color-az-75: #2C2C2C;
   --color-az-80: #262626;
   --color-az-85: #202020;
-  --color-az-90: #1a1a1a;
+  --color-az-90: #1A1A1A;
   --color-az-95: #141414;
-  --color-az-primary: #d14eea;
-  --color-az-secondary: #4e93ea;
-  --color-az-green: #4ec962;
-  --color-az-red: #e63946;
+  --color-az-primary: #D14EEA;
+  --color-az-secondary: #4E93EA;
+  --color-az-green: #4EC962;
+  --color-az-red: #E64A3A;
   --color-pastel-pink: #d16b8e;
   --color-pastel-teal: #5fa89f;
   --color-pastel-blue: #5ba3d0;
@@ -29,45 +30,39 @@
   --color-pastel-red: #e63946;
   --color-pastel-purple: #b06fa8;
   --color-pastel-white: #e8e8e8;
-  --font-sans: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-code: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-code: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
 }
 
 /* Moonlit Glass */
 :root {
-  --page-bg: #030817;
-  --page-bg-soft: #061022;
-  --page-bg-raised: #09162c;
-  --glass: rgba(8, 22, 53, 0.68);
-  --glass-strong: rgba(5, 15, 38, 0.88);
-  --glass-border: rgba(195, 218, 255, 0.22);
-  --glass-highlight: rgba(234, 241, 255, 0.2);
-  --text: #f6f4fb;
-  --muted: #b6c4dc;
-  --faint: #7486a6;
-  --cyan: #7ec8ff;
-  --magenta: #f19abe;
-  --amber: #efc692;
-  --green: #85dba5;
+  --page-bg: var(--az-ground);
+  --page-bg-soft: var(--az-ground);
+  --page-bg-raised: var(--az-surface);
+  --glass: var(--az-surface);
+  --glass-strong: var(--az-sunken);
+  --glass-border: var(--az-line);
+  --glass-highlight: transparent;
+  --text: var(--az-text);
+  --muted: var(--az-body);
+  --faint: var(--az-muted);
+  --cyan: var(--az-secondary);
+  --magenta: var(--az-primary);
+  --amber: var(--az-yellow);
+  --green: var(--az-green);
 }
 
-body {
-  background: var(--page-bg);
-}
 
 .hero--moonlit {
   min-height: 1080px;
-  border-bottom-color: rgba(198, 218, 255, 0.18);
-  background: #04102b;
+  border-bottom-color: var(--az-line);
+  background: transparent;
 }
 
 .hero--moonlit .hero__media {
   inset: 0;
-  transform: translate3d(0, var(--hero-shift), 0) scale(1.035);
-  background-image: url('/assets/azora-moonlit-observatory.png');
-  background-position: center top;
-  background-size: cover;
+  background: transparent;
 }
 
 .hero--moonlit .hero__veil {
@@ -413,31 +408,31 @@ body {
 }
 
 .section-band {
-  background: #061022;
+  background: transparent;
 }
 
 .section-band--deep,
 .showcase {
-  background: #030817;
+  background: transparent;
 }
 
 .section-band--contrast {
-  background: #09152a;
+  background: transparent;
 }
 
 .glass-panel {
-  border-color: rgba(195, 218, 255, 0.18);
-  background: rgba(8, 22, 52, 0.62);
+  border-color: var(--az-line);
+  background: var(--az-surface);
 }
 
 .features__group,
 .ecosystem-card,
 .targets__rail {
-  background: rgba(8, 22, 52, 0.52);
+  background: var(--az-surface);
 }
 
 .site-footer {
-  background: #020614;
+  background: transparent;
 }
 
 @media (max-width: 900px) {
@@ -466,9 +461,7 @@ body {
 
   .hero--moonlit .hero__media {
     inset: 0;
-    transform: translate3d(0, var(--hero-shift), 0) scale(1.08);
-    background-position: 48% top;
-    opacity: 1;
+    background: transparent;
   }
 
   .hero--moonlit .hero__veil {
@@ -585,20 +578,20 @@ body {
 }
 :root {
   color-scheme: dark;
-  --page-bg: #06080a;
-  --page-bg-soft: #0a0d10;
-  --page-bg-raised: #0d1115;
-  --glass: rgba(17, 22, 27, 0.66);
-  --glass-strong: rgba(13, 17, 21, 0.82);
-  --glass-border: rgba(255, 255, 255, 0.13);
-  --glass-highlight: rgba(255, 255, 255, 0.2);
-  --text: #f5f7f8;
-  --muted: #a0a9b1;
-  --faint: #6e7880;
-  --cyan: #66d9ef;
-  --magenta: #ea72d5;
-  --amber: #f0b46c;
-  --green: #72d68a;
+  --page-bg: var(--az-ground);
+  --page-bg-soft: var(--az-ground);
+  --page-bg-raised: var(--az-surface);
+  --glass: var(--az-surface);
+  --glass-strong: var(--az-sunken);
+  --glass-border: var(--az-line);
+  --glass-highlight: transparent;
+  --text: var(--az-text);
+  --muted: var(--az-body);
+  --faint: var(--az-muted);
+  --cyan: var(--az-secondary);
+  --magenta: var(--az-primary);
+  --amber: var(--az-yellow);
+  --green: var(--az-green);
   --scroll-progress: 0;
   --hero-shift: 0px;
   font-synthesis: none;
@@ -620,7 +613,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
-  background: var(--page-bg);
+  background: transparent;
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
 }
@@ -704,8 +697,8 @@ svg {
   position: relative;
   min-height: 92svh;
   overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: #05070a;
+  border-bottom: 1px solid var(--az-line);
+  background: transparent;
 }
 
 .hero__media {
@@ -713,7 +706,7 @@ svg {
   inset: -6% -2%;
   transform: translate3d(0, var(--hero-shift), 0) scale(1.04);
   transform-origin: center;
-  background: url('/assets/azora-glass-hero.webp') center / cover no-repeat;
+  background: transparent;
   will-change: transform;
 }
 
@@ -1752,14 +1745,13 @@ svg {
 /* Selected Moonlit Glass composition */
 .hero--moonlit {
   min-height: 1024px;
-  background: #061a48;
+  background: transparent;
 }
 
+/* The shared backdrop in azora-design.css supplies the photograph now. */
 .hero--moonlit .hero__media {
   inset: 0;
-  transform: translate3d(0, var(--hero-shift), 0) scale(1.012);
-  background-position: center top;
-  background-size: cover;
+  background: transparent;
 }
 
 .hero--moonlit .hero__veil {
@@ -2177,25 +2169,25 @@ svg {
 
 /* Moonlit Glass lower page */
 :root {
-  --page-bg: #030a20;
-  --page-bg-soft: #071535;
-  --page-bg-raised: #0b2048;
-  --glass: rgba(13, 37, 82, 0.58);
-  --glass-strong: rgba(7, 24, 60, 0.84);
-  --glass-border: rgba(204, 219, 255, 0.28);
-  --glass-highlight: rgba(255, 255, 255, 0.22);
-  --text: #f8f6fc;
-  --muted: #b9c8e2;
-  --faint: #7f91b3;
-  --cyan: #85cbff;
-  --magenta: #f0a0c5;
-  --amber: #f3c98f;
-  --green: #8bddb0;
+  --page-bg: var(--az-ground);
+  --page-bg-soft: var(--az-ground);
+  --page-bg-raised: var(--az-surface);
+  --glass: var(--az-surface);
+  --glass-strong: var(--az-sunken);
+  --glass-border: var(--az-line);
+  --glass-highlight: transparent;
+  --text: var(--az-text);
+  --muted: var(--az-body);
+  --faint: var(--az-muted);
+  --cyan: var(--az-secondary);
+  --magenta: var(--az-primary);
+  --amber: var(--az-yellow);
+  --green: var(--az-green);
 }
 
 body,
 main {
-  background: #030a20;
+  background: transparent;
 }
 
 .scroll-progress {
