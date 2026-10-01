@@ -25,17 +25,39 @@ and obtains one Let's Encrypt certificate for the main domain and all website
 subdomains. Every listed DNS record must resolve to `152.239.116.142` before
 requesting the certificate.
 
-## GitHub Actions secrets
+## Deploy keys
 
-Expose this organization or repository secret to all seven repositories:
+Every site deploys as the unprivileged `azora-deploy` user, but each
+repository has its own SSH key, stored as the repository secret
+`DEPLOY_SSH_PRIVATE_KEY`. That covers these seven repositories and the other
+sites on this VPS (`azora-engine-book-website`, `azora-dev-website`,
+`doublegarts-eu`, `gabriel-gheorghe-eu`, `daniela-bilciu-website`). The
+workflow fails before deploying, with a clear error, when the secret is
+missing.
 
-- `AZORA_SSH_PRIVATE_KEY`: private SSH key for the dedicated `azora-deploy`
-  account.
+On the server, `~azora-deploy/.ssh/authorized_keys` pins each key to
+[`rrsync`](https://manpages.ubuntu.com/manpages/noble/man1/rrsync.1.html)
+rooted at that site's directory:
 
-The workflow follows the proven `merea-website` direct-rsync deployment model,
-but it does not reuse Merea's root credential. It connects as the unprivileged
-`azora-deploy` user on the verified SSH port `22` and fails before deployment
-with a clear error when the Azora-specific key is missing.
+```text
+command="/usr/bin/rrsync -wo /var/www/azoralang.org",restrict ssh-ed25519 AAAA… deploy@azoralang.org github:azoralabs/azora-lang-website
+```
+
+A key can therefore only upload into its own site, cannot read files back
+(`-wo`), and gets no shell, pty or forwarding (`restrict`). rrsync resolves
+every path relative to that directory, so the workflow uploads to `html/`
+rather than to an absolute path. A site whose workflow is copied into another
+repository, or edited to point elsewhere, cannot overwrite a different site.
+The deploy job is also guarded with `if: github.repository == '<owner>/<repo>'`.
+
+To add a site, generate a key pair, add the public key to `authorized_keys`
+with the line above adapted to the new directory, and store the private key
+in the new repository:
+
+```bash
+ssh-keygen -t ed25519 -N '' -C 'deploy@example.org github:owner/repo' -f example.org
+gh secret set DEPLOY_SSH_PRIVATE_KEY -R owner/repo < example.org
+```
 
 Each push to `main` builds with `npm ci` and synchronizes `dist/` to that
 site's document root. `rsync --delete` removes stale hashed assets without

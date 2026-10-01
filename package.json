@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "sync:language": "node scripts/sync-azora-language.mjs 0.0.5",
+    "sync:language": "node scripts/sync-azora-language.mjs 0.1.0-dev",
+    "test:examples": "node scripts/check-examples.mjs --run",
     "preview": "vite preview"
   },
   "dependencies": {

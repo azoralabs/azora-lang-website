@@ -11,7 +11,7 @@ const links = [
   },
   {
     title: 'The Azora Book',
-    desc: 'A comprehensive 41-chapter guide covering everything from basics to advanced concurrency, inheritance, FFI, and more.',
+    desc: 'The 0.1.0-dev guide covers current syntax, ownership, async work, standard-library APIs and compiler internals.',
     href: 'https://book.azoralang.org',
     cta: 'Start Reading',
     label: 'Learn',

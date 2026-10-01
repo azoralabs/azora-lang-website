@@ -1,7 +1,9 @@
 export const codeExamples = [
   {
     title: 'Hello World',
-    code: `use std.io
+    code: `module playground
+
+import std.io
 
 func main() {
     println("Hello, world!")
@@ -9,7 +11,9 @@ func main() {
   },
   {
     title: 'Variables',
-    code: `use std.io
+    code: `module playground
+
+import std.io
 
 func main() {
     // Mutable binding
@@ -19,17 +23,19 @@ func main() {
     fin name = "Azora"
     fin greeting = "Hello, \${name}!"
 
-    // Stdlib collections are Kotlin-inspired
-    fin items = vec@[1, 2, 3, 4, 5]
+    // A bracket literal with no other context builds an Array
+    fin items = [1, 2, 3, 4, 5]
     count = items.size
 
     println(greeting)
-    trace { "\${count}" }
+    println("\${count} items")
 }`,
   },
   {
     title: 'Functions & Lambdas',
-    code: `use std.io
+    code: `module playground
+
+import std.io
 
 // Named function with return type
 func add(a: Int, b: Int): Int {
@@ -45,27 +51,29 @@ func apply(value: Int, transform: (Int) -> Int): Int {
 }
 
 func main() {
-    println("\${add(3, 4)}")
-    println("\${square(5)}")
+    println(add(3, 4))
+    println(square(5))
 
     // Lambda
     fin double = { x: Int -> x * 2 }
-    println("\${apply(5, double)}")
+    println(apply(5, double))
 }`,
   },
   {
     title: 'Tuples',
-    code: `use std.io
-use std.container.tuple
+    code: `module playground
+
+import std.io
+import std.container.tuple
 
 func divmod(a: Int, b: Int): (Int, Int) {
-    return tup@(a / b, a % b)
+    return (a / b, a % b)
 }
 
 func main() {
     // Tuple literal
-    fin pair = tup@(42, "hello")
-    println("\${pair.0}")
+    fin pair = (42, "hello")
+    println(pair.0)
     println(pair.1)
 
     // Tuple as return value
@@ -74,18 +82,20 @@ func main() {
     println("remainder: \${result.1}")
 
     // Nested tuple
-    fin nested = tup@(1, tup@(2, 3), "end")
+    fin nested = (1, (2, 3), "end")
     fin inner = nested.1
-    println("\${inner.0}")
+    println(inner.0)
 }`,
   },
   {
     title: 'Packs & Enums',
-    code: `use std.io
+    code: `module playground
+
+import std.io
 
 pack Point {
-    var x: Real
-    var y: Real
+    var x: Double
+    var y: Double
 }
 
 enum Direction {
@@ -104,23 +114,25 @@ func main() {
     println("Distance squared: \${dx * dx + dy * dy}")
 
     fin dir = Direction.North
-    println("\${dir}")
+    println(dir)
 }`,
   },
   {
-    title: 'Slots',
-    code: `use std.io
+    title: 'Variant Enums',
+    code: `module playground
 
-slot Shape {
-    Circle(radius: Real)
-    Rectangle(width: Real, height: Real)
+import std.io
+
+variant enum Shape {
+    Circle(radius: Double)
+    Rectangle(width: Double, height: Double)
     Point
 }
 
 func describe(shape: Shape): String {
     return when shape {
-        Shape.Circle(radius) -> "circle with r=\${radius}"
-        Shape.Rectangle(width, height) -> "rect \${width}x\${height}"
+        .Circle(radius) -> "circle with r=\${radius}"
+        .Rectangle(width, height) -> "rect \${width}x\${height}"
         else -> "point"
     }
 }
@@ -131,18 +143,21 @@ func main() {
 
     println(describe(c))
     println(describe(r))
+    println(describe(Shape.Point))
 }`,
   },
   {
     title: 'Generics',
-    code: `use std.io
+    code: `module playground
+
+import std.io
 
 pack Pair<A, B> {
     var first: A
     var second: B
 }
 
-func swap<A, B>(pair: Pair<A, B>): Pair<B, A> {
+func<A, B> swap(pair: Pair<A, B>): Pair<B, A> {
     return Pair(pair.second, pair.first)
 }
 
@@ -154,9 +169,11 @@ func main() {
     println("\${s.first}, \${s.second}")
 }`,
   },
-  /*{
+  {
     title: 'Async / Await',
-    code: `use std.io
+    code: `module playground
+
+import std.io
 
 async func main() {
     // \`async { … }\` starts work; the handle is awaited for its result.
@@ -167,59 +184,72 @@ async func main() {
     println(await a)
     println(await b)
 }`,
-  },*/
+  },
   {
     title: 'Flows',
-    code: `use std.io
-use std.concurrency.generators
+    code: `module playground
+
+import std.io
+import std.container.list
+import std.concurrency.generators
 
 // A producer stays an ordinary \`func\`; its return type says it yields a stream.
-func range(n: Int): Sequence<Int> = sequence([s: SequenceScope<Int>!]{
+func upTo(n: Int): Sequence<Int> = sequence<Int> [!] s: SequenceScope<Int> {
     for i in 0..<n {
         yield(i)
     }
-})
+}
 
-func evens(n: Int): Sequence<Int> = sequence([s: SequenceScope<Int>!]{
+func evens(n: Int): Sequence<Int> = sequence<Int> [!] s: SequenceScope<Int> {
     for i in 0..<n {
         if i % 2 == 0 {
             yield(i)
         }
     }
-})
+}
 
 func main() {
+    fin numbers = upTo(5).items
     var sum = 0
-    range(5).collect({ x -> sum = sum + x })
+    for i in 0..<numbers.size {
+        sum = sum + numbers[i]
+    }
     println("Sum 0..<5: \${sum}")
 
-    evens(10).collect({ e -> println("\${e}") })
+    fin even = evens(10).items
+    for i in 0..<even.size {
+        println(even[i])
+    }
 }`,
   },
   {
     title: 'Testing',
-    code: `func factorial(n: Int): Int {
+    code: `module playground
+
+func factorial(n: Int): Int {
     if n <= 1 { return 1 }
     return n * factorial(n - 1)
 }
 
 test "factorial of 0 is 1" {
-    assert factorial(0) == 1
+    assert factorial(0) == 1 panic "0! should be 1"
 }
 
 test "factorial of 5 is 120" {
-    assert factorial(5) == 120
+    assert factorial(5) == 120 panic "5! should be 120"
 }
 
 test "factorial of 1 is 1" {
-    assert factorial(1) == 1
+    assert factorial(1) == 1 panic "1! should be 1"
 }`,
   },
   {
     title: 'Error Handling',
-    code: `use std.io
+    code: `module playground
 
-fail MathError {
+import std.io
+
+error MathError {
     DivisionByZero
     Overflow
 }
@@ -230,7 +260,7 @@ func safeDivide(a: Int, b: Int): Int ?! MathError {
 }
 
 func main() {
-    // Catch with default value
+    // Catch with a default value
     fin result = safeDivide(10, 0) catch -1
     println("10 / 0 = \${result}")
 
@@ -241,55 +271,70 @@ func main() {
   },
   {
     title: 'Contracts',
-    code: `func clamp(x: Int, lo: Int, hi: Int): Int
+    code: `module playground
+
+func clamp(x: Int, lo: Int, hi: Int): Int
 in {
-    assert lo <= hi { "lo must be <= hi" }
+    assert lo <= hi panic "lo must be <= hi"
 } out {
-    assert it >= lo { "result must be >= lo" }
-    assert it <= hi { "result must be <= hi" }
-} zone {
+    assert it >= lo panic "result must be >= lo"
+    assert it <= hi panic "result must be <= hi"
+} scope {
     if x < lo { return lo }
     if x > hi { return hi }
     return x
 }
 
 test "clamp within range" {
-    assert clamp(5, 0, 10) == 5
+    assert clamp(5, 0, 10) == 5 panic "5 is already in range"
 }
 
 test "clamp below minimum" {
-    assert clamp(-5, 0, 10) == 0
+    assert clamp(-5, 0, 10) == 0 panic "below the range clamps to lo"
 }
 
 test "clamp above maximum" {
-    assert clamp(15, 0, 10) == 10
+    assert clamp(15, 0, 10) == 10 panic "above the range clamps to hi"
 }`,
   },
   {
     title: 'Collections',
-    code: `use std.io
+    code: `module playground
+
+import std.io
+import std.container.list
+import std.container.set
 
 func main() {
-    fin numbers = vec@[1, 2, 3, 4, 5]
+    // A literal builds whatever collection its context asks for
+    fin numbers: List<Int> = [1, 2, 3, 4, 5]
     println("List size: \${numbers.size}")
 
-    // setOf deduplicates
-    fin unique = set@[1, 2, 2, 3, 3, 3]
+    // A set keeps one of each element
+    fin unique: Set<Int> = [1, 2, 2, 3, 3, 3]
     println("Set size: \${unique.size}")
+
+    // An untyped [key: value] literal is the standard map
+    var ages = ["Ada": 36, "Linus": 28]
+    ages["Grace"] = 45
+    println("Map size: \${ages.size}")
 }`,
   },
-  /*{
+  {
     title: 'Metaprogramming',
-    code: `use std.io
+    code: `module playground
 
-deco Range {
+import std.io
+
+// \`annot\` declares a decorator; \`for\` says what it may decorate.
+annot @Range for .Pack {
     fin min: Int
     fin max: Int
 }
 
-deco Serializable
+annot @Tracked for .Pack
 
-@Serializable
+@Tracked
 @Range(min: 0, max: 100)
 pack Health {
     var value: Int = 50
@@ -297,122 +342,122 @@ pack Health {
 
 func main() {
     // Compile-time introspection: reflect over a declaration and ask about it.
-    inline if reflect<Health>.hasDeco<Serializable> {
-        println("Health is serializable")
+    inline if reflect<Health>.hasAnnot<Tracked> {
+        println("Health is tracked")
     }
 
-    inline if reflect<Health>.hasDeco<Range> {
-        inline fin minVal = reflect<Health>.decoMeta<Range>.min
-        inline fin maxVal = reflect<Health>.decoMeta<Range>.max
+    inline if reflect<Health>.hasAnnot<Range> {
+        inline fin minVal = reflect<Health>.annotMeta<Range>.min
+        inline fin maxVal = reflect<Health>.annotMeta<Range>.max
         println("Health range: \${minVal}..\${maxVal}")
-    }
-}`,
-  },*/
-  {
-    title: 'Pointers & Memory',
-    code: `use std.io
-
-pack Node {
-    var value: Int
-    var next: Node* = null
-}
-
-func main() {
-    // Heap allocation
-    var a = alloc Node(value: 1, next: null)
-    var b = alloc Node(value: 2, next: null)
-    var c = alloc Node(value: 3, next: null)
-
-    // Link nodes: a -> b -> c
-    a.*.next = b
-    b.*.next = c
-
-    // Traverse the linked list
-    var current: Node* = a
-    while current != null {
-        println("\${current.*.value}")
-        current = current.*.next
     }
 }`,
   },
   {
+    title: 'Pointers & Memory',
+    code: `module playground
+
+import std.io
+
+pack Node {
+    var value: Int
+    var next: Node^? = null
+}
+
+func main() {
+    // alloc^ places a value on the heap and hands back a writable pointer
+    var c: Node^ = alloc^ Node(3)
+    var b: Node^ = alloc^ Node(2, c)
+    var a: Node^ = alloc^ Node(1, b)
+
+    // Traverse the linked list: a -> b -> c
+    var current: Node^? = a
+    while current != null {
+        println((*current).value)
+        current = (*current).next
+    }
+
+    purge a
+    purge b
+    purge c
+}`,
+  },
+  {
     title: 'Dependency Injection',
-    code: `use std.io
+    code: `module playground
 
-// Singleton services with solo
-solo Logger {
+import std.io
+
+// Singleton services are \`solo\` packs
+solo pack Logger {
     var level: Int = 1
+}
 
-    func log[self: Self&](msg: String) {
+impl Logger {
+    func &.log(msg: String) {
         if self.level > 0 {
             println("[LOG] \${msg}")
         }
     }
 }
 
-solo Database {
+solo pack Database {
     var connected: Bool = false
+}
 
-    func connect[self: Self!]() {
+impl Database {
+    func !.connect() {
         self.connected = true
         println("Database connected")
     }
 
-    func query[self: Self&](sql: String): String {
+    func &.query(sql: String): String {
         if !self.connected { return "not connected" }
         return "result for: " + sql
     }
 }
 
-// DI container wiring
-wrap AppModule {
-    solo Logger
-    solo Database
+// The graph wires every singleton the program can inject
+graph AppGraph {
+    solo Logger()
+    solo Database()
 }
 
 func main() {
-    // Resolve singletons from the active wrap
-    var logger = inject Logger
-    fin db = inject Database
-    logger.level = 1
+    fin logger = inject Logger
+    var db = inject Database
 
     logger.log("Starting app")
     db.connect()
-    fin result = db.query("SELECT * FROM users")
-    logger.log(result)
+    logger.log(db.query("SELECT * FROM users"))
 }`,
   },
   {
     title: 'Reactivity',
-    code: `// Persistent state with rem
-@Reactive
-func counter() {
-    ret count: Int = 0
+    code: `module playground
+
+import std.io
+
+// \`remember\` state survives each rerun of its reactive owner
+react func counter() {
+    remember var count: Int = 0
     count = count + 1
-    trace { "Call #\${count}" }
+    println("Call #\${count}")
 }
 
-// Reactive views
-@Reactive
-func Greeting(name: String) {
-    ret visits: Int = 0
+react func greeting(name: String) {
+    remember var visits: Int = 0
     visits = visits + 1
 
-    trace .Info "Hello, \${name}!"
-    trace .Info "Visited \${visits} times"
-
-    // Side effects that track dependencies
+    // An effect reruns when what it reads changes
     effect name {
-        trace .Warn "Name changed to: \${name}"
+        println("Hello, \${name}! Visited \${visits} time(s)")
     }
 }
 
-@Reactive
-func main() {
-    // rem persists across calls
-    counter()   // Call #1
-    counter()   // Call #2
-    counter()   // Call #3
+react func main() {
+    counter()
+    greeting("Azora")
 }`,
   },
 ];

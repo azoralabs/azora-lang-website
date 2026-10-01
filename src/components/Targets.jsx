@@ -21,7 +21,7 @@ const targets = [
   {
     index: '03',
     name: 'WebAssembly',
-    desc: 'WASI-compatible WebAssembly for high-performance browser and edge runtime execution.',
+    desc: 'Generate WebAssembly text for browser and other hosts. Host imports provide runtime services; backend coverage is still evolving.',
     color: 'text-pastel-white',
     state: 'experimental',
     icon: SiWebassembly,

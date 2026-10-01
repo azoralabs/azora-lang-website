@@ -3,8 +3,8 @@
 import { AZORA_KEYWORD_PATTERN } from './azora-vocabulary.js'
 
 const BUILTIN_TYPES = new Set([
-  'Any', 'Bool', 'Byte', 'Cent', 'Char', 'Decimal', 'Float', 'Int', 'Long',
-  'Nothing', 'Real', 'ReturnType', 'Short', 'Size', 'String', 'Type', 'UByte',
+  'Any', 'Bool', 'Byte', 'Cent', 'Char', 'Quad', 'Float', 'Half', 'Int', 'Long',
+  'Nothing', 'Double', 'ReturnType', 'Short', 'Size', 'String', 'Type', 'UByte',
   'UCent', 'UInt', 'ULong', 'UShort', 'USize', 'Unit',
 ])
 
@@ -378,7 +378,7 @@ export function createAzoraGrammar(source = '') {
       alias: 'annotation',
     },
     macro: {
-      pattern: /\b[a-z_]\w*@/,
+      pattern: /@[a-z_]\w*[!?&*^]?/,
     },
     preprocessor: {
       pattern: /\$\w+/,
@@ -396,7 +396,7 @@ export function createAzoraGrammar(source = '') {
             },
             keyword: AZORA_KEYWORD_PATTERN,
             ...semantic,
-            operator: /\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|[&|^~]|<<=?|>>=?/,
+            operator: /<=>|<>|>\.\.|\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|[&|^~]|<<=?|>>=?/,
             punctuation: /[{}[\]();:.,<>?]/,
           },
         },
@@ -450,7 +450,7 @@ export function createAzoraGrammar(source = '') {
     },
     keyword: AZORA_KEYWORD_PATTERN,
     ...references,
-    operator: /\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|\?=|\?[+\-*/%]=|\?\+\+|\?--|[&|^~]|<<=?|>>=?/,
+    operator: /<=>|<>|>\.\.|\.\.<?|\.\.\.?|->|::|[+\-*/%]=?|&&|\|\||[<>!=]=?|!|\?\?|\?\.|\?=|\?[+\-*/%]=|\?\+\+|\?--|[&|^~]|<<=?|>>=?/,
     punctuation: /[{}[\]();:.,<>?]/,
   }
 }

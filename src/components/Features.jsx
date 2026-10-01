@@ -135,22 +135,22 @@ const icons = {
 
 const features = [
   { icon: 'syntax', title: 'Clean, Expressive Syntax', desc: 'Kotlin + Rust like syntax with modern ergonomics. Type inference, pattern matching, and single-expression functions reduce boilerplate.' },
-  { icon: 'packs', title: 'Packs, Enums & Slots', desc: 'Data packs for structures, enums for constants, and slots for tagged unions with exhaustive pattern matching.' },
-  { icon: 'generics', title: 'Generics & Specs', desc: 'Full generic types and functions with spec constraints. Monomorphized at compile time for zero-cost abstractions.' },
-  { icon: 'tuples', title: 'Function Receivers', desc: 'Built-in support for function context parameters.' },
-  { icon: 'async', title: 'Coroutines', desc: 'First-class structured concurrency with tasks, await, and launch. Built into the language, not bolted on.' },
-  { icon: 'flows', title: 'Flows & Generators', desc: 'Lazy generator sequences with yield. Compose data pipelines that only compute values on demand.' },
+  { icon: 'packs', title: 'Packs, Enums & Variants', desc: 'Data packs for structures, enums for constants, and variant enums for tagged unions with exhaustive pattern matching.' },
+  { icon: 'generics', title: 'Generics & Specs', desc: 'Generic types and functions with spec constraints and call-site type inference. Generic implementation coverage is still evolving.' },
+  { icon: 'tuples', title: 'Function Receivers', desc: 'Read-only and mutable receivers use &. and !.; explicit receiver parameters can name their context.' },
+  { icon: 'async', title: 'Coroutines', desc: 'First-class concurrency with async functions, async blocks and await. Built into the language, not bolted on.' },
+  { icon: 'flows', title: 'Sequences & Flows', desc: 'Sequence<T> and Flow<T> are library types for synchronous and asynchronous series, produced by ordinary functions.' },
   { icon: 'testing', title: 'Built-in Testing', desc: 'Test blocks are a language construct. Write tests next to your code with assert and trace, no framework needed.' },
-  { icon: 'collections', title: 'Collection Literals', desc: 'Kotlin-inspired collection APIs such as listOf, setOf, List, MutableList, Map, and MutableMap in std.container.' },
-  { icon: 'errors', title: 'Error Handling', desc: 'Typed error returns with fail, throw, try, and catch. Guard statements for nullable unwrapping. Rescue for recovery.' },
-  { icon: 'memory', title: 'Memory Management', desc: 'Manual memory control with alloc, drop, ref, mut, shared and weak. Zones for arena allocation and unsafe blocks when you need them.' },
+  { icon: 'collections', title: 'Collection Literals', desc: 'One literal for every collection: [1, 2, 3] becomes the List, Set or array its context asks for, and [key: value] a Map. List, MutableList, Set and Map live in std.container.' },
+  { icon: 'errors', title: 'Error Handling', desc: 'Typed errors with error declarations and T ?! E returns. Fail with return .Variant, propagate with try, recover with catch and rescue.' },
+  { icon: 'memory', title: 'Memory Management', desc: 'Manual memory control with alloc, *p dereference and purge. Borrows with & and !, and unsafe blocks when you need them.' },
   { icon: 'targets', title: 'Multi-Target Compilation', desc: 'Run interpreted, or compile to LLVM IR, or WebAssembly from a single codebase.' },
-  { icon: 'meta', title: 'Metaprogramming', desc: 'Decorators, compile-time introspection with hasDeco and getDeco, and deepinline blocks for bulk code generation.' },
+  { icon: 'meta', title: 'Metaprogramming', desc: 'Decorators declared with annot, compile-time introspection with reflect<T>.hasAnnot and annotMeta, and deepinline blocks for bulk code generation.' },
   { icon: 'ctce', title: 'Compile-Time Execution', desc: 'Inline if/for blocks evaluate at compile time. Conditionally emit code, unroll loops, and resolve constants before runtime.' },
   { icon: 'ffi', title: 'Bridge (Foreign Functions)', desc: 'Call native C, Objective-C and WebAssembly functions via the bridge keyword.' },
   { icon: 'contracts', title: 'Contracts', desc: 'Preconditions with in, postconditions with out. Design by Contract philosophy enforced at runtime.' },
-  { icon: 'di', title: 'Dependency Injection', desc: 'Built-in DI with solo singletons, wrap containers, inject resolution, and bind mappings. Lazy bindings break circular deps.' },
-  { icon: 'reactivity', title: 'Reactivity', desc: 'Reactive state with rem for persistence, view for UI components, and effect for side effects that track dependencies.' },
+  { icon: 'di', title: 'Dependency Injection', desc: 'Built-in DI with solo singletons, graph containers, inject resolution, and binds mappings. Lazy injection breaks circular deps.' },
+  { icon: 'reactivity', title: 'Reactivity', desc: 'Reactive state in react funcs: remember, retain and preserve for persistence, and effect for side effects that track dependencies.' },
 ]
 
 const featureGroups = [
