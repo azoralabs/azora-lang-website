@@ -6,7 +6,7 @@ const websiteRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const languageRoot = path.resolve(
   process.env.AZORA_LANG_ROOT || path.join(websiteRoot, '..', 'azora-lang'),
 )
-const version = process.argv[2] || '0.1.0-dev'
+const version = process.argv[2] || '0.1-dev'
 
 async function collectAzoraFiles(directory) {
   const entries = await fs.readdir(directory, { withFileTypes: true })

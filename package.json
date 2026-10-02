@@ -4,9 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "test:editor": "node --test scripts/test-editor.mjs",
     "dev": "vite",
     "build": "vite build",
-    "sync:language": "node scripts/sync-azora-language.mjs 0.1.0-dev",
+    "sync:language": "node scripts/sync-azora-language.mjs 0.1-dev",
     "test:examples": "node scripts/check-examples.mjs --run",
     "preview": "vite preview"
   },

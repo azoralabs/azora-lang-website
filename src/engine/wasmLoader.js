@@ -1,22 +1,35 @@
-export async function loadWasmEngine(version) {
+const engineLoads = new Map()
+
+export function loadWasmEngine(version) {
+  if (!engineLoads.has(version)) {
+    engineLoads.set(version, initializeEngine(version).catch((error) => {
+      engineLoads.delete(version)
+      throw error
+    }))
+  }
+  return engineLoads.get(version)
+}
+
+async function initializeEngine(version) {
+  if (typeof WebAssembly === 'undefined') throw new Error('This browser does not support WebAssembly.')
   const basePath = `${import.meta.env.BASE_URL}wasm/${version}`
   const cacheBust = `?t=${Date.now()}`
 
   const oldScript = document.querySelector('script[data-azora-wasm]')
   if (oldScript) oldScript.remove()
 
-  await new Promise((resolve, reject) => {
+  await withTimeout(new Promise((resolve, reject) => {
     const script = document.createElement('script')
     script.setAttribute('data-azora-wasm', 'true')
     script.src = `${basePath}/azoraLang.js${cacheBust}`
     script.onload = () => resolve()
     script.onerror = () => reject(new Error(`Failed to load WASM bundle for version ${version}`))
     document.head.appendChild(script)
-  })
+  }), 'Runtime download timed out. Check your connection and retry.')
 
   // The Kotlin/WASM webpack bundle sets globalThis.compiler as an async module.
   // It's thenable, so we can await it to get the resolved exports.
-  const mod = await waitForExports()
+  const mod = await withTimeout(waitForExports(), 'Runtime initialization timed out. Please retry.')
 
   return {
     check(source) {
@@ -45,18 +58,26 @@ export async function loadWasmEngine(version) {
   }
 }
 
+async function withTimeout(promise, message) {
+  let timer
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(message)), 30000) }),
+    ])
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 async function waitForExports(maxAttempts = 200) {
   for (let i = 0; i < maxAttempts; i++) {
     const mod = globalThis.compiler
     if (mod) {
       // The webpack async module is thenable. Await it to resolve exports.
-      try {
-        const resolved = await mod
-        if (resolved && typeof resolved.azInterpret === 'function') {
-          return resolved
-        }
-      } catch (_) {
-        // Not yet ready, keep polling
+      const resolved = await mod
+      if (resolved && typeof resolved.azInterpret === 'function') {
+        return resolved
       }
       // Also check if exports are directly available (non-async case)
       if (typeof mod.azInterpret === 'function') {

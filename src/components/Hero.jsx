@@ -2,9 +2,9 @@ import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { ArrowRight, BookOpen, Bug, MoreHorizontal, Play, RotateCcw, Sparkles } from 'lucide-react'
 import useAzoraLanguageServer from '../hooks/useAzoraLanguageServer.js'
 import { parseCompilerDiagnostics } from '../engine/compilerDiagnostics.js'
+import { PROJECT_STORAGE_KEY, restoreProject } from '../engine/projectStorage.js'
 
 const MiniCodeEditor = lazy(() => import('./MiniCodeEditor.jsx'))
-const PROJECT_STORAGE_KEY = 'azora-lang-moonlit-project-v3'
 
 const initialFiles = {
   'main.az': `module playground
@@ -23,7 +23,7 @@ impl Language {
 }
 
 func main() {
-    fin language = Language("Azora", "0.1.0-dev")
+    fin language = Language("Azora", "0.1-dev")
     println(language.greeting())
 }`,
   'language_test.az': `module playground.tests
@@ -44,16 +44,7 @@ const Spinner = () => (
 )
 
 function loadProject() {
-  try {
-    const stored = JSON.parse(window.localStorage.getItem(PROJECT_STORAGE_KEY))
-    if (stored && typeof stored === 'object') {
-      return Object.fromEntries(Object.entries(initialFiles).map(([path, source]) => [
-        path,
-        typeof stored[path] === 'string' ? stored[path] : source,
-      ]))
-    }
-  } catch {}
-  return initialFiles
+  try { return restoreProject(initialFiles, window.localStorage) } catch { return initialFiles }
 }
 
 function detectCapabilities(code) {
@@ -107,14 +98,14 @@ export default function Hero({ engine }) {
   const [output, setOutput] = useState(null)
   const [runningMode, setRunningMode] = useState(null)
   const [compilerDiagnostics, setCompilerDiagnostics] = useState([])
-  const azls = useAzoraLanguageServer('0.1.0-dev')
+  const azls = useAzoraLanguageServer('0.1-dev')
 
   const code = files[activeFile] || ''
   const { hasMain, hasTests } = useMemo(() => detectCapabilities(code), [code])
   const running = runningMode !== null
 
   useEffect(() => {
-    window.localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(files))
+    try { window.localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(files)) } catch {}
   }, [files])
 
   useEffect(() => {
@@ -151,7 +142,7 @@ export default function Hero({ engine }) {
     setActiveFile('main.az')
     setOutput(null)
     setCompilerDiagnostics([])
-    window.localStorage.removeItem(PROJECT_STORAGE_KEY)
+    try { window.localStorage.removeItem(PROJECT_STORAGE_KEY) } catch {}
   }
 
   async function handleRun() {
@@ -279,8 +270,20 @@ export default function Hero({ engine }) {
               </div>
             </div>
             <div className="workspace__statusbar">
-              <span>{engine.error ? 'Engine unavailable' : 'Azora 0.1.0-dev'}</span><span>{azls.loading ? 'AZLS loading' : azls.error ? 'AZLS unavailable' : 'AZLS ready'}</span><span>Spaces: 4</span>
+              <span>{engine.loading ? 'Runtime loading' : engine.error ? 'Engine unavailable' : 'Azora 0.1-dev'}</span><span>{azls.loading ? 'AZLS loading' : azls.error ? 'AZLS unavailable' : 'AZLS ready'}</span><span>Spaces: 4</span>
             </div>
+            {engine.error && (
+              <div className="runtime__output runtime__output-error" role="alert">
+                <p>Runtime could not load: {engine.error}</p>
+                <button type="button" onClick={engine.retry}>Retry runtime</button>
+              </div>
+            )}
+            {azls.error && (
+              <div className="runtime__output runtime__output-error" role="alert">
+                <p>Language tools could not load: {azls.error}</p>
+                <button type="button" onClick={azls.retry}>Retry language tools</button>
+              </div>
+            )}
           </div>
           <p className="runtime__note" data-reveal>
             Experimental release. Azora is evolving quickly and is not yet recommended for production systems.

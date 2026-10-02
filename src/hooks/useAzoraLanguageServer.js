@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { loadAzoraLanguageServer } from '../engine/azlsLoader.js'
 
 export default function useAzoraLanguageServer(version) {
   const [state, setState] = useState({ loading: true, server: null, error: null })
   const generation = useRef(0)
+  const [attempt, setAttempt] = useState(0)
+  const retry = useCallback(() => setAttempt((current) => current + 1), [])
 
   useEffect(() => {
     const currentGeneration = ++generation.current
@@ -18,7 +20,8 @@ export default function useAzoraLanguageServer(version) {
         setState({ loading: false, server: null, error: error.message || String(error) })
       }
     })
-  }, [version])
+    return () => { generation.current += 1 }
+  }, [version, attempt])
 
-  return state
+  return { ...state, retry }
 }

@@ -2,6 +2,7 @@ const FIELD_MARKER = '<:AZLS-FIELD:>'
 const RECORD_MARKER = '<:AZLS-RECORD:>'
 const textEncoder = new TextEncoder()
 const textDecoder = new TextDecoder()
+const serverLoads = new Map()
 
 function wasmImports() {
   const ignore = () => {}
@@ -49,11 +50,25 @@ function resolveRange(documents, activeSource, response) {
   return { ...response, document }
 }
 
-export async function loadAzoraLanguageServer(version) {
+export function loadAzoraLanguageServer(version) {
+  if (!serverLoads.has(version)) {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), 30000)
+    serverLoads.set(version, initializeLanguageServer(version, controller.signal)
+      .catch((error) => {
+        serverLoads.delete(version)
+        if (error.name === 'AbortError') throw new Error('Language tools download timed out. Check your connection and retry.')
+        throw error
+      }).finally(() => clearTimeout(timer)))
+  }
+  return serverLoads.get(version)
+}
+
+async function initializeLanguageServer(version, signal) {
   const basePath = `${import.meta.env.BASE_URL}azls/${version}`
   const [wasmResponse, workspaceResponse] = await Promise.all([
-    fetch(`${basePath}/azls.wasm`, { cache: 'no-store' }),
-    fetch(`${basePath}/stdlib.json`, { cache: 'no-store' }),
+    fetch(`${basePath}/azls.wasm`, { cache: 'no-store', signal }),
+    fetch(`${basePath}/stdlib.json`, { cache: 'no-store', signal }),
   ])
 
   if (!wasmResponse.ok) {

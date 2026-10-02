@@ -11,7 +11,7 @@ const links = [
   },
   {
     title: 'The Azora Book',
-    desc: 'The 0.1.0-dev guide covers current syntax, ownership, async work, standard-library APIs and compiler internals.',
+    desc: 'The 0.1-dev guide covers current syntax, ownership, async work, standard-library APIs and compiler internals.',
     href: 'https://book.azoralang.org',
     cta: 'Start Reading',
     label: 'Learn',

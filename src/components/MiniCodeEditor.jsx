@@ -7,7 +7,8 @@ import { searchKeymap } from '@codemirror/search'
 import { EditorState } from '@codemirror/state'
 import { EditorView, highlightActiveLine, keymap } from '@codemirror/view'
 import { azlsExtensions, refreshAzoraDiagnostics } from '../codemirror/azls.js'
-import { azoraTheme } from '../codemirror/azora-theme.js'
+import { azoraTheme, azoraHighlight } from '../codemirror/azora-theme.js'
+import { azoraLanguage } from '../codemirror/azora-language.js'
 
 export default function MiniCodeEditor({
   source,
@@ -45,6 +46,7 @@ export default function MiniCodeEditor({
         closeBrackets(),
         indentOnInput(),
         azoraTheme,
+        ...(!languageServer ? [azoraLanguage(sourceRef.current), azoraHighlight] : []),
         EditorState.tabSize.of(4),
         indentUnit.of('    '),
         keymap.of([
