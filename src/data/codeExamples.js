@@ -1,5 +1,28 @@
 export const codeExamples = [
   {
+    title: 'Derived Specs',
+    code: `module playground
+
+import std.io
+import std.traits
+
+// One spec is written without parentheses.
+pack Point derives Equal {
+    fin x: Int
+    fin y: Int
+}
+
+// Several specs share one parenthesized list.
+pack Text derives (Copy, Clone, Equal, Hash) {
+    fin value: Int
+}
+
+func main() {
+    println(Point(1, 2) == Point(1, 2))
+    println(Text(7) == Text(7))
+}`,
+  },
+  {
     title: 'Hello World',
     code: `module playground
 
@@ -377,9 +400,7 @@ func main() {
         current = (*current).next
     }
 
-    purge a
-    purge b
-    purge c
+    purge (a, b, c)
 }`,
   },
   {
