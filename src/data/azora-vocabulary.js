@@ -49,7 +49,6 @@ export const AZORA_RESERVED_KEYWORDS = Object.freeze([
   "lazy",
   "lend",
   "let",
-  "literal",
   "loop",
   "macro",
   "module",
