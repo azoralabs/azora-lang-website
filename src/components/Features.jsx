@@ -144,7 +144,7 @@ const features = [
   { icon: 'collections', title: 'Collection Literals', desc: 'One literal for every collection: [1, 2, 3] becomes the List, Set or array its context asks for, and [key: value] a Map. List, MutableList, Set and Map live in std.container.' },
   { icon: 'errors', title: 'Error Handling', desc: 'Typed errors with error declarations and T ?! E returns. Fail with return .Variant, propagate with try, recover with catch and rescue.' },
   { icon: 'memory', title: 'Memory Management', desc: 'Manual memory control with alloc, *p dereference and purge. Borrows with & and !, and unsafe blocks when you need them.' },
-  { icon: 'targets', title: 'Multi-Target Compilation', desc: 'Run interpreted, or compile to LLVM IR, or WebAssembly from a single codebase.' },
+  { icon: 'targets', title: 'Multi-Target Compilation', desc: 'Interpret Azora programs, compile to LLVM IR or WebAssembly, and build GPU shaders for DirectX, Vulkan, and Metal.' },
   { icon: 'meta', title: 'Metaprogramming', desc: 'Decorators declared with annot, compile-time introspection with reflect<T>.hasAnnot and annotMeta, and deepinline blocks for bulk code generation.' },
   { icon: 'ctce', title: 'Compile-Time Execution', desc: 'Inline if/for blocks evaluate at compile time. Conditionally emit code, unroll loops, and resolve constants before runtime.' },
   { icon: 'ffi', title: 'Bridge (Foreign Functions)', desc: 'Call native C, Objective-C and WebAssembly functions via the bridge keyword.' },

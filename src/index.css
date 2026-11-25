@@ -1291,7 +1291,7 @@ svg {
 
 .targets__rail {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   overflow: hidden;
   background: rgba(8, 12, 15, 0.52);
 }
@@ -1508,14 +1508,6 @@ svg {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .target:nth-child(2) {
-    border-right: 0;
-  }
-
-  .target:nth-child(-n + 2) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
   .site-footer__inner {
     grid-template-columns: 1fr auto;
   }
@@ -1625,14 +1617,6 @@ svg {
     min-height: 0;
     border-right: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .target:nth-child(-n + 2) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .target:last-child {
-    border-bottom: 0;
   }
 
   .target__meta {
@@ -2622,8 +2606,7 @@ main {
 }
 
 @media (max-width: 960px) {
-  .features__grid,
-  .targets__rail {
+  .features__grid {
     grid-template-columns: 1fr;
   }
 
@@ -2638,6 +2621,10 @@ main {
 }
 
 @media (max-width: 760px) {
+  .targets__rail {
+    grid-template-columns: 1fr;
+  }
+
   .section-band,
   .runtime-intro {
     padding: 84px 0;

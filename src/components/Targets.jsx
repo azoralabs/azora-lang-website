@@ -1,4 +1,4 @@
-import { Sparkles, SquareTerminal } from 'lucide-react'
+import { Gpu, Sparkles, SquareTerminal } from 'lucide-react'
 import { SiLlvm, SiWebassembly } from 'react-icons/si'
 
 const targets = [
@@ -26,6 +26,14 @@ const targets = [
     state: 'experimental',
     icon: SiWebassembly,
   },
+  {
+    index: '04',
+    name: 'GPU',
+    desc: 'Compile Azora vertex, fragment, and compute shaders to DXIL for DirectX, SPIR-V for Vulkan, and Metallib for Metal.',
+    color: 'text-pastel-purple',
+    state: 'experimental',
+    icon: Gpu,
+  },
 ]
 
 export default function Targets() {
@@ -35,9 +43,9 @@ export default function Targets() {
         <div className="section-heading section-heading--split" data-reveal>
           <div>
             <span className="section-kicker"><Sparkles aria-hidden="true" />Compilation targets</span>
-            <h2>One language. Three ways to run.</h2>
+            <h2>One language. Four ways to run.</h2>
           </div>
-          <p>Stay in the interpreter while you explore, then take the same source to native, browser, server, or edge runtimes.</p>
+          <p>Run Azora with the interpreter, compile for native and WebAssembly runtimes, or write shaders for the GPU.</p>
         </div>
         <div className="targets__rail" data-reveal="up">
           {targets.map((target, index) => (
